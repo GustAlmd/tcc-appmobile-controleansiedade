@@ -7,6 +7,8 @@ import { db } from '../../firebaseConnection';
 import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import * as Animatable from 'react-native-animatable'
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
+
 
 const ProfileScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +23,7 @@ const ProfileScreen = () => {
 
   const [image, setImage] = useState(null);
 
+  const navigation = useNavigation();
 
   //Atualizar Perfil
   const updateProfile = async () => {
@@ -130,7 +133,7 @@ const ProfileScreen = () => {
       </Animatable.View>
 
       <Animatable.View animation='fadeInRight'>
-        <TouchableOpacity style={styles.buttonAbout} onPress={() => setOpen()}>
+        <TouchableOpacity style={styles.buttonAbout} onPress={() => navigation.navigate('About')}>
           <View style={styles.buttonContent}>
             <Feather name="info" size={20} color="#fff" style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Sobre</Text>

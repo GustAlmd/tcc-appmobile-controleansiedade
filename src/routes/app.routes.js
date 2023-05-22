@@ -7,7 +7,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Home from "../pages/Home";
 import Music from '../pages/Music';
-import Profile from '../pages/Profile';
+import Profile from '../pages/Profile/index';
+import About from '../pages/Profile/about'
 import Games from '../pages/Games/index';
 import Ansiedade from '../pages/Games/ansiedadeGame';
 import Concentracao from '../pages/Games/concentracaoGame'
@@ -247,6 +248,7 @@ function ProfileNavigation() {
           },
         }}
       />
+      <AppStack.Screen name="About" component={About} />
     </AppStack.Navigator>
   );
 }
