@@ -3,20 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function Registers({ data }) {
-    const registers = data.registers;
+    const registers = data.selectedButtons;
+    const id = data.uid;
 
     return (
-        <View style={[styles.container, { height: hp('15%') }]}>
+        <View style={styles.container} key={id}>
             <TouchableOpacity>
                 <View style={styles.header}>
-                    <Text style={styles.textDate}>{data.date}</Text>
+                    <Text style={styles.textDate}>{data.formattedDate}</Text>
                     <View style={styles.emoticonContainer}>
                         <Text style={styles.emoticon}>{data.symbol}</Text>
                     </View>
                 </View>
                 <View style={styles.containerRegisters}>
-                    {registers.map((text, id) => (
-                        <View style={styles.selectionRegister} key={id}>
+                    {registers.map((text) => (
+                        <View style={styles.selectionRegister} >
                             <Text style={styles.textOptions}>{text}</Text>
                         </View>
                     ))}
@@ -33,7 +34,8 @@ const styles = StyleSheet.create({
         padding: hp('1%'),
         borderRadius: wp('2%'),
         paddingLeft: wp('3%'),
-        paddingRight: wp('3%')
+        paddingRight: wp('3%'),
+        height: hp('15%')
     },
 
     header: {
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
 
     containerRegisters: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     },
 
     selectionRegister: {

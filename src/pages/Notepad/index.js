@@ -34,19 +34,25 @@ const Notepad = () => {
 
     const registrosRef = collection(db, 'Registros');
 
-    /*useEffect(() => {
-        const fetchRegistros = async () => {
-            const querry = query(registrosRef, where('userID', '==', user.uid));
-            const querySnapshot = await getDocs(querry);
-            const registros = [];
-            querySnapshot.forEach((doc) => {
-                registros.push({ id: doc.uid, date: doc.formattedDate, symbol: doc.symbol });
-            });
-            setRegistros(registros);
-        };
+    // ...
 
-        fetchRegistros();
-    }, [user.uid]);*/
+useEffect(() => {
+    const fetchRegistros = async () => {
+        const querry = query(registrosRef, where('userID', '==', user.uid));
+        const querySnapshot = await getDocs(querry);
+        const registros = [];
+        querySnapshot.forEach((doc) => {
+            const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
+            registros.push({ id: doc.uid, formattedDate, symbol, selectedButtons });
+        });
+        setRegistros(registros);
+    };
+
+    fetchRegistros();
+}, [user.uid]);
+
+// ...
+
 
     const handleButtonPress = (emotionId, symbol) => {
         if (emotionId === selectedButton) {
@@ -123,7 +129,7 @@ const Notepad = () => {
 
             <Animatable.Text style={styles.textDaily} animation='fadeInLeft'>Meu Diário</Animatable.Text>
             {registros && registros.length > 0 ? (
-                <Animatable.FlatList
+                <FlatList
                     animation='fadeInDown'
                     contentContainerStyle={{ paddingHorizontal: wp('1%') }}
                     showsVerticalScrollIndicator={false}
