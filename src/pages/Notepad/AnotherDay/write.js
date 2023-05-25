@@ -3,11 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../firebaseConnection';
-import { AuthContext } from '../../context/auth'
-import * as Animatable from 'react-native-animatable' 
-
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../firebaseConnection';
+import { AuthContext } from '../../../context/auth';
+import * as Animatable from 'react-native-animatable'; 
 
 const Write = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,7 +18,7 @@ const Write = ({ route }) => {
   const [todayThoughts, setTodayThoughts] = useState('');
   const [todayLearn, setTodayLearn] = useState('');
   const [todayGrateful, setTodayGrateful] = useState('');
-  const { selectedButtons, emotionId, symbol } = route.params;
+  const { selectedButtons, emotionId, symbol, selectedDate } = route.params;
   const registrosRef = collection(db, 'Registros');
 
   //Salvando no banco de dados
@@ -27,7 +26,7 @@ const Write = ({ route }) => {
     try {
       // Crie um objeto com os dados a serem salvos
       const registroData = {
-        formattedDate: formattedDate,
+        formattedDate: selectedDate,
         selectedButtons: selectedButtons,
         emotionId: emotionId,
         symbol: symbol,
@@ -42,31 +41,21 @@ const Write = ({ route }) => {
       // Adicione os dados à coleção 'Registros'
       const docRef = await addDoc(registrosRef, registroData);
       setModalVisible(true);
-      // Buscar registros atualizados após salvar
     } catch (error) {
       alert('Erro ao adicionar documento: ', error);
     }
   };
 
+
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
-  const currentDate = new Date();
-  const options = {
-    year: 'numeric', // ano com quatro dígitos (ex: "2023")
-    month: 'long', // nome do mês por extenso (ex: "abril")
-    day: 'numeric', // dia do mês (ex: "27")
-    locale: 'pt-BR' // idioma e região (Português do Brasil)
-  };
-
   const buttonBack = (emotionId, symbol) => {
-    navigation.navigate('SelectButtons', { emotionId, symbol });
+    navigation.navigate('ADSelectButtons', { emotionId, symbol, selectedDate });
   };
-
-  const formattedDate = currentDate.toLocaleDateString('pt-BR', options); // formata a data atual em português
 
   const handleEmotionSwitch = (selectedButtons, emotionId, symbol) => {
-    navigation.navigate('SwitchEmotion', { selectedButtons, emotionId, symbol });
+    navigation.navigate('ADSwitchEmotion', { selectedButtons, emotionId, symbol, selectedDate });
   };
 
   return (
@@ -84,7 +73,7 @@ const Write = ({ route }) => {
 
         <Animatable.View style={styles.containerSelections} animation='fadeInLeft'>
 
-          <Text style={styles.text}>{formattedDate}</Text>
+          <Text style={styles.text}>{selectedDate}</Text>
 
           <View style={styles.headerWrite}>
 

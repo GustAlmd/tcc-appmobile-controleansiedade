@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as Animatable from 'react-native-animatable' 
 
 
-const ChooseEmotion = ({ route }) => {
-    const { date } = route.params;
+const SwitchEmotion = ({ route }) => {
     const navigation = useNavigation();
+    const { selectedButtons, emotionId, symbol, selectedDate } = route.params;
 
-    const handleEmotionSwitch = (emotionId, symbol) => {
-        navigation.navigate('SelectButtons', { emotionId, symbol, date });
+    const handleEmotionSwitch = (selectedButtons, emotionId, symbol) => {
+        navigation.navigate('ADWrite', { selectedButtons, emotionId, symbol, selectedDate  });
     };
 
     return (
         <View style={styles.container}>
-            <Animatable.View style={styles.containerEmotion} animation='fadeInLeft'>
-                <Animatable.Text style={styles.title} animation='fadeInDown'> Como você está se sentindo? </Animatable.Text>
+            <View style={styles.containerEmotion}>
+                <Text style={styles.title}> Como você está se sentindo? </Text>
                 <TouchableOpacity
                     style={[styles.buttonEmotion, { backgroundColor: '#bbf7d0' }]}
-                    onPress={() => handleEmotionSwitch("radiante", "😀")}
+                    onPress={() => handleEmotionSwitch(selectedButtons, "radiante", "😀")}
                 >
                     <Text style={styles.emotion}>😀</Text>
                     <Text style={styles.text}> Radiante </Text>
@@ -27,7 +26,7 @@ const ChooseEmotion = ({ route }) => {
 
                 <TouchableOpacity
                     style={[styles.buttonEmotion, { backgroundColor: '#dcfce7' }]}
-                    onPress={() => handleEmotionSwitch("feliz", "😊")}
+                    onPress={() => handleEmotionSwitch(selectedButtons,"feliz", "😊")}
                 >
                     <Text style={styles.emotion}>😊</Text>
                     <Text style={styles.text}> Triste </Text>
@@ -35,7 +34,7 @@ const ChooseEmotion = ({ route }) => {
 
                 <TouchableOpacity
                     style={[styles.buttonEmotion, { backgroundColor: '#fafafa' }]}
-                    onPress={() => handleEmotionSwitch("normal", "😐")}
+                    onPress={() => handleEmotionSwitch(selectedButtons, "normal", "😐")}
                 >
                     <Text style={styles.emotion}>😐</Text>
                     <Text style={styles.text}> Normal </Text>
@@ -43,19 +42,19 @@ const ChooseEmotion = ({ route }) => {
 
                 <TouchableOpacity
                     style={[styles.buttonEmotion, { backgroundColor: '#fee2e2' }]}
-                    onPress={() => handleEmotionSwitch( "irritado", "😠")}
+                    onPress={() => handleEmotionSwitch(selectedButtons, "irritado", "😠")}
                 >
                     <Text style={styles.emotion}>😠</Text>
                     <Text style={styles.text}> Irritado </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.buttonEmotion, { backgroundColor: '#fecaca' }]}
-                    onPress={() => handleEmotionSwitch("triste", "😥")}
+                    onPress={() => handleEmotionSwitch(selectedButtons, "triste", "😥")}
                 >
                     <Text style={styles.emotion}>😥</Text>
                     <Text style={styles.text}> Triste </Text>
                 </TouchableOpacity>
-            </Animatable.View>
+            </View>
         </View>
     );
 };
@@ -99,4 +98,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ChooseEmotion;
+export default SwitchEmotion;

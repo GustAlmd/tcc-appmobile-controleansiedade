@@ -16,7 +16,10 @@ import Notepad from '../pages/Notepad/index';
 import Write from '../pages/Notepad/write';
 import SelectButtons from '../pages/Notepad/selectButtons';
 import SwitchEmotion from '../pages/Notepad/switchEmotion';
-import ChooseEmotion from "../pages/Notepad/chooseEmotion";
+import ChooseEmotion from "../pages/Notepad/AnotherDay/chooseEmotion";
+import ADSelectButtons from "../pages/Notepad/AnotherDay/selectButtons";
+import ADWrite from "../pages/Notepad/AnotherDay/write";
+import ADSwitchEmotion from "../pages/Notepad/AnotherDay/switchEmotion";
 
 const AppStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -225,6 +228,9 @@ function NotepadNavigation() {
       <AppStack.Screen name="Write" component={Write} />
       <AppStack.Screen name="ChooseEmotion" component={ChooseEmotion} />
       <AppStack.Screen name="SwitchEmotion" component={SwitchEmotion} />
+      <AppStack.Screen name="ADSelectButtons" component={ADSelectButtons} />
+      <AppStack.Screen name="ADSwitchEmotion" component={ADSwitchEmotion} />
+      <AppStack.Screen name="ADWrite" component={ADWrite} />
     </AppStack.Navigator>
   );
 }

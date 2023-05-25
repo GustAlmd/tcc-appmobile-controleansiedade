@@ -7,13 +7,13 @@ import moment from 'moment';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { parse, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { id, ptBR } from 'date-fns/locale';
 import Registers from './Registers';
 import { db } from '../../firebaseConnection';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { AuthContext } from '../../context/auth'
-import * as Animatable from 'react-native-animatable' 
-
+import { AuthContext } from '../../context/auth';
+import * as Animatable from 'react-native-animatable';
+import { FontAwesome } from '@expo/vector-icons';
 
 const expressions = [
     { id: 'radiante', symbol: '😀' },
@@ -21,7 +21,6 @@ const expressions = [
     { id: 'normal', symbol: '😐' },
     { id: 'irritado', symbol: '😠' },
     { id: 'triste', symbol: '😥' },
-
 ];
 
 const Notepad = () => {
@@ -31,28 +30,45 @@ const Notepad = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedButton, setSelectedButton] = useState('');
     const [registros, setRegistros] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     const registrosRef = collection(db, 'Registros');
 
-    // ...
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        // Aqui você pode fazer uma nova busca pelos registros atualizados
+        const fetchRegistros = async () => {
+            const querry = query(registrosRef, where('userID', '==', user.uid));
+            const querySnapshot = await getDocs(querry);
+            const registros = [];
+            querySnapshot.forEach((doc) => {
+                const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
+                registros.push({ id: doc.id, formattedDate, symbol, selectedButtons });
+            });
+            setRegistros(registros);
+        };
 
-useEffect(() => {
-    const fetchRegistros = async () => {
-        const querry = query(registrosRef, where('userID', '==', user.uid));
-        const querySnapshot = await getDocs(querry);
-        const registros = [];
-        querySnapshot.forEach((doc) => {
-            const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
-            registros.push({ id: doc.uid, formattedDate, symbol, selectedButtons });
-        });
-        setRegistros(registros);
+        fetchRegistros();
+        // ...
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
     };
 
-    fetchRegistros();
-}, [user.uid]);
+    useEffect(() => {
+        const fetchRegistros = async () => {
+            const querry = query(registrosRef, where('userID', '==', user.uid));
+            const querySnapshot = await getDocs(querry);
+            const registros = [];
+            querySnapshot.forEach((doc) => {
+                const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
+                registros.push({ id: doc.id, formattedDate, symbol, selectedButtons });
+            });
+            setRegistros(registros);
+        };
 
-// ...
-
+        fetchRegistros();
+    }, [user.uid]);
 
     const handleButtonPress = (emotionId, symbol) => {
         if (emotionId === selectedButton) {
@@ -127,7 +143,21 @@ useEffect(() => {
                 </View>
             </Animatable.View>
 
-            <Animatable.Text style={styles.textDaily} animation='fadeInLeft'>Meu Diário</Animatable.Text>
+            <View style={styles.title}>
+                <Animatable.Text style={styles.textDaily} animation="fadeInLeft">
+                    Meu Diário
+                </Animatable.Text>
+                <TouchableOpacity onPress={handleRefresh}>
+                    <Animatable.View
+                        animation={refreshing ? 'rotate' : ''}
+                        easing="linear"
+                        iterationCount="infinite"
+                        duration={1000}
+                    >
+                        <FontAwesome name="refresh" size={24} color="white" />
+                    </Animatable.View>
+                </TouchableOpacity>
+            </View>
             {registros && registros.length > 0 ? (
                 <FlatList
                     animation='fadeInDown'
@@ -135,8 +165,8 @@ useEffect(() => {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                     data={registros}
-                    keyExtractor={(item) => String(item.id)}
-                    renderItem={({ item }) => <Registers data={item} />}
+                    keyExtractor={(item) => (item.id)}
+                    renderItem={({ item }) => <Registers data={item} key={item.id} />}
                 />
             ) : (
                 <Animatable.Text style={styles.emptyText} animation='fadeInLeft' >Nenhum registro encontrado.</Animatable.Text>
@@ -182,14 +212,12 @@ const styles = StyleSheet.create({
     },
 
     textDaily: {
-        marginTop: wp('2%'),
-        paddingStart: wp('4%'),
         fontSize: hp('2.5%'),
         fontWeight: 'bold',
         color: 'white'
     },
 
-    emptyText:{
+    emptyText: {
         marginTop: wp('2%'),
         paddingStart: wp('4%'),
         fontSize: hp('1.8%'),
@@ -245,6 +273,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white'
     },
+    title: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: hp('5%'),
+        paddingStart: wp('4%'),
+        paddingEnd: wp('4%'),
+    }
 
 });
 

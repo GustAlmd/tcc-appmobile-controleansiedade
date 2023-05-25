@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function Registers({ data }) {
-    const registers = data.selectedButtons;
-    const id = data.uid;
+    const registers = data.selectedButtons;    
 
     return (
-        <View style={styles.container} key={id}>
+        <View style={styles.container} key={data.id}>
             <TouchableOpacity>
                 <View style={styles.header}>
                     <Text style={styles.textDate}>{data.formattedDate}</Text>
@@ -35,14 +34,13 @@ const styles = StyleSheet.create({
         borderRadius: wp('2%'),
         paddingLeft: wp('3%'),
         paddingRight: wp('3%'),
-        height: hp('15%')
+        flex: 1
     },
 
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: hp('0.3%')
     },
 
     textDate: {
