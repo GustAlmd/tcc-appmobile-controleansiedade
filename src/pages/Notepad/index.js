@@ -165,8 +165,8 @@ const Notepad = () => {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                     data={registros}
-                    keyExtractor={(item) => (item.id)}
-                    renderItem={({ item }) => <Registers data={item} key={item.id} />}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => <Registers data={item} key={item.id}/>}
                 />
             ) : (
                 <Animatable.Text style={styles.emptyText} animation='fadeInLeft' >Nenhum registro encontrado.</Animatable.Text>

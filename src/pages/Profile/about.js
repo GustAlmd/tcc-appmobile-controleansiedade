@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, Linking  } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, Linking } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -10,7 +10,7 @@ const developers = [
     role: 'Desenvolvedor',
     image: require('../../assets/desenvolvedores/Andrey.jpeg'),
     instagram: 'https://www.instagram.com/zdrey.7/',
-    github: 'https://github.com/seu_perfil_do_github',
+    github: 'https://github.com/DreyMendonca/',
   },
   {
     name: 'Gustavo de Almeida',
@@ -20,18 +20,26 @@ const developers = [
     github: 'https://github.com/GustAlmd/',
   },
   {
-    name: 'João Doja',
-    role: 'Designer',
-    image: require('../../assets/desenvolvedores/Joao.jpeg'),
-    instagram: 'https://www.instagram.com/seu_perfil_do_instagram',
-    github: 'https://github.com/seu_perfil_do_github',
-  },
-  {
     name: 'Monique Cristine',
     role: 'Designer',
     image: require('../../assets/desenvolvedores/Monique.jpeg'),
-    instagram: 'https://www.instagram.com/seu_perfil_do_instagram',
-    github: 'https://github.com/seu_perfil_do_github',
+    instagram: 'https://www.instagram.com/fxnsxcv/',
+    github: 'https://github.com/nickdevhelp/',
+  },
+  {
+    name: 'João Doja',
+    role: 'Designer',
+    image: require('../../assets/desenvolvedores/Joao.jpeg'),
+    instagram: 'https://www.instagram.com/joao_doja_dias/',
+    github: 'https://github.com/JoaoADoja/',
+  },
+
+  {
+    name: 'Gabriel Coutinho',
+    role: 'Designer',
+    image: require('../../assets/desenvolvedores/coutinho.jpg'),
+    instagram: 'https://www.instagram.com/whocourtsy/',
+    github: 'https://github.com/GabrielCou/',
   },
 ];
 
@@ -63,7 +71,7 @@ const App = () => {
             <Text style={styles.name}>{developer.name}</Text>
             <Text style={styles.role}>{developer.role}</Text>
             <View style={styles.icones}>
-              <TouchableOpacity style={{marginRight:wp('1.5%')}} onPress={() => handleInstagramPress(developer.instagram)}>
+              <TouchableOpacity style={{ marginRight: wp('1.5%') }} onPress={() => handleInstagramPress(developer.instagram)}>
                 <Text>
                   <Ionicons name="logo-instagram" size={26} color="black" />
                 </Text>
@@ -77,6 +85,14 @@ const App = () => {
 
           </Animatable.View>
         ))}
+        <Text style={styles.title}>Sobre</Text>
+<Text style={styles.text}>
+  O aplicativo MindRest representa uma ferramenta poderosa para auxiliar as pessoas em momentos de crise de ansiedade.
+  Com recursos e funcionalidades desenvolvidos especificamente para reduzir o estresse e promover a calma mental,
+  o MindRest capacita os usuários a enfrentarem suas ansiedades de maneira mais eficaz, melhorando sua qualidade de vida e bem-estar geral.
+  Ao disponibilizar exercícios de respiração, registro de humor, músicas relaxantes, o aplicativo proporciona um ambiente seguro e acolhedor.
+</Text>
+        
       </ScrollView>
     </ScrollView>
 
@@ -87,24 +103,31 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#556aa9'
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
+    color: '#fff'
   },
   icones: {
     flexDirection: 'row',
     marginTop: hp('1%')
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 16,
-    textAlign: 'center',
+    padding: 15,
+    fontWeight: 'bold',
+    textAlign: 'justify',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
+    width: wp('90%'),
+    backgroundColor: '#8896d7',
+    color: '#fff'
   },
   cardContainer: {
     flexDirection: 'column',
@@ -115,7 +138,8 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     marginBottom: 16,
-    width: wp('90%')
+    width: wp('90%'),
+    backgroundColor: '#8896d7'
   },
   image: {
     width: 80,
