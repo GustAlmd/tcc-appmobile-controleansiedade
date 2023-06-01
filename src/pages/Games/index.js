@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
   containerCards: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: -35,
+    
   },
   card: {
     backgroundColor: '#fff',
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: wp('45%'),
     height: hp('20%')
+    
   },
   title: {
     fontSize: 18,

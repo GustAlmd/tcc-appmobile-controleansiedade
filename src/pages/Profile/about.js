@@ -86,14 +86,20 @@ const App = () => {
           </Animatable.View>
         ))}
         <Text style={styles.title}>Sobre</Text>
-<Text style={styles.text}>
-  O aplicativo MindRest representa uma ferramenta poderosa para auxiliar as pessoas em momentos de crise de ansiedade.
-  Com recursos e funcionalidades desenvolvidos especificamente para reduzir o estresse e promover a calma mental,
-  o MindRest capacita os usuários a enfrentarem suas ansiedades de maneira mais eficaz, melhorando sua qualidade de vida e bem-estar geral.
-  Ao disponibilizar exercícios de respiração, registro de humor, músicas relaxantes, o aplicativo proporciona um ambiente seguro e acolhedor.
-</Text>
-        
+        <Text style={styles.text}>
+          O aplicativo MindRest representa uma ferramenta poderosa para auxiliar as pessoas em momentos de crise de ansiedade.
+          Com recursos e funcionalidades desenvolvidos especificamente para reduzir o estresse e promover a calma mental,
+          o MindRest capacita os usuários a enfrentarem suas ansiedades de maneira mais eficaz, melhorando sua qualidade de vida e bem-estar geral.
+          Ao disponibilizar exercícios de respiração, registro de humor, músicas relaxantes, o aplicativo proporciona um ambiente seguro e acolhedor.
+        </Text>
+
+
       </ScrollView>
+
+      <Text style={styles.title}>Linguagens Usadas</Text>
+      <Animatable.View animation='fadeInUp'>
+        <Image source={require('../../assets/logo/reactNativeLogo.png')} style={styles.logo} />
+      </Animatable.View>
     </ScrollView>
 
   );
@@ -165,6 +171,11 @@ const styles = StyleSheet.create({
   role: {
     fontSize: 12,
     color: '#121212',
+  },
+  logo: {
+    width: 115,
+    height: 100,
+    marginVertical: 10,
   },
 });
 

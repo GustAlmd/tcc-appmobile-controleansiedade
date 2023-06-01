@@ -34,7 +34,8 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^9.2.0",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "expo-media-library": "~15.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
