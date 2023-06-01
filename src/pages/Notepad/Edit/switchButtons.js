@@ -6,10 +6,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 const SwitchEmotion = ({ route }) => {
     const navigation = useNavigation();
-    const { selectedButtons, emotionId, symbol } = route.params;
+    const { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id } = route.params;
 
     const handleEmotionSwitch = (selectedButtons, emotionId, symbol) => {
-        navigation.navigate('Write', { selectedButtons, emotionId, symbol });
+        navigation.navigate('Edit', { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id });
     };
 
     return (

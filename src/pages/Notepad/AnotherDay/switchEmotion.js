@@ -29,7 +29,7 @@ const SwitchEmotion = ({ route }) => {
                     onPress={() => handleEmotionSwitch(selectedButtons,"feliz", "😊")}
                 >
                     <Text style={styles.emotion}>😊</Text>
-                    <Text style={styles.text}> Triste </Text>
+                    <Text style={styles.text}> Feliz </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity

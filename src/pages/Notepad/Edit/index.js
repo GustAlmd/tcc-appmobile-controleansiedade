@@ -3,70 +3,78 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../../firebaseConnection';
-import { AuthContext } from '../../context/auth'
-import * as Animatable from 'react-native-animatable' 
-
+import { db } from '../../../firebaseConnection';
+import { updateDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
+import * as Animatable from 'react-native-animatable';
 
 const Write = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { user } = useContext(AuthContext);
+  const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
+  const [activity, setActivity] = useState(todayActivity);
+  const [feelings, setFeelings] = useState(todayFeelings);
+  const [thoughts, setThoughts] = useState(todayThoughts);
+  const [learn, setLearn] = useState(todayLearn);
+  const [grateful, setGrateful] = useState(todayGrateful);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
-  const [todayActivity, setTodayActivity] = useState('');
-  const [todayFeelings, setTodayFeelings] = useState('');
-  const [todayThoughts, setTodayThoughts] = useState('');
-  const [todayLearn, setTodayLearn] = useState('');
-  const [todayGrateful, setTodayGrateful] = useState('');
-  const { selectedButtons, emotionId, symbol } = route.params;
-  const registrosRef = collection(db, 'Registros');
+  const { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id } = route.params;
 
-  //Salvando no banco de dados
-  const handleSave = async () => {
+  //Deletar Documento no banco de dados
+  const deleteDocument = async (collection, documentId) => {
     try {
-      // Crie um objeto com os dados a serem salvos
-      const registroData = {
-        formattedDate: formattedDate,
-        selectedButtons: selectedButtons,
-        emotionId: emotionId,
-        symbol: symbol,
-        todayActivity: todayActivity,
-        todayFeelings: todayFeelings,
-        todayThoughts: todayThoughts,
-        todayLearn: todayLearn,
-        todayGrateful: todayGrateful,
-        userID: user.uid
+      const documentRef = doc(db, collection, documentId);
+      await deleteDoc(documentRef);
+      console.log('Documento excluído com sucesso!');
+      navigation.navigate('Notepad');
+    } catch (error) {
+      console.error('Erro ao excluir o documento:', error);
+    }
+  };
+
+  //Atualizando no banco de dados
+  const handleUpdate = async () => {
+
+    try {
+      const registroRef = doc(db, 'Registros', id);
+
+      const docSnapshot = await getDoc(registroRef);
+      if (!docSnapshot.exists()) {
+        console.log('Documento do usuário não encontrado!');
+        return;
+      }
+
+      const updatedFields = {
+        selectedButtons,
+        emotionId,
+        symbol,
+        todayActivity,
+        todayFeelings,
+        todayThoughts,
+        todayLearn,
+        todayGrateful,
       };
 
-      // Adicione os dados à coleção 'Registros'
-      const docRef = await addDoc(registrosRef, registroData);
+      await updateDoc(registroRef, updatedFields);
+
       setModalVisible(true);
-      // Buscar registros atualizados após salvar
     } catch (error) {
-      alert('Erro ao adicionar documento: ', error);
+      console.error('Erro ao atualizar o perfil:', error);
     }
   };
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
-  const currentDate = new Date();
-  const options = {
-    year: 'numeric', // ano com quatro dígitos (ex: "2023")
-    month: 'long', // nome do mês por extenso (ex: "abril")
-    day: 'numeric', // dia do mês (ex: "27")
-    locale: 'pt-BR' // idioma e região (Português do Brasil)
+  const buttonBack = () => {
+    navigation.navigate('Notepad');
   };
 
-  const buttonBack = (emotionId, symbol) => {
-    navigation.navigate('SelectButtons', { emotionId, symbol });
+  const changeSelectedButtons = () => {
+    navigation.navigate('ESelectButtons', { emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id });
   };
 
-  const formattedDate = currentDate.toLocaleDateString('pt-BR', options); // formata a data atual em português
-
-  const handleEmotionSwitch = (selectedButtons, emotionId, symbol) => {
-    navigation.navigate('SwitchEmotion', { selectedButtons, emotionId, symbol });
+  const handleEmotionSwitch = () => {
+    navigation.navigate('ESwitchEmotion', { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id });
   };
 
   return (
@@ -74,8 +82,13 @@ const Write = ({ route }) => {
 
       <View style={styles.header}>
         <View style={styles.touchableContainer}>
-          <TouchableOpacity onPress={() => buttonBack(emotionId, symbol)}>
+          <TouchableOpacity onPress={() => buttonBack()}>
             <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="#556aa9" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.touchableContainer1}>
+          <TouchableOpacity onPress={() => setModalVisibleDelete(true)}>
+            <Ionicons name="md-trash-sharp" size={24} color="#556aa9" />
           </TouchableOpacity>
         </View>
       </View>
@@ -84,7 +97,7 @@ const Write = ({ route }) => {
 
         <Animatable.View style={styles.containerSelections} animation='fadeInLeft'>
 
-          <Text style={styles.text}>{formattedDate}</Text>
+          <Text style={styles.text}>{selectedDate}</Text>
 
           <View style={styles.headerWrite}>
 
@@ -107,7 +120,7 @@ const Write = ({ route }) => {
                 ))}
               </View>
 
-              <TouchableOpacity style={styles.buttonSwitch} onPress={() => buttonBack(emotionId, symbol)}>
+              <TouchableOpacity style={styles.buttonSwitch} onPress={() => changeSelectedButtons()}>
                 <Text style={styles.textSwitch}>Mudar</Text>
               </TouchableOpacity>
 
@@ -118,10 +131,10 @@ const Write = ({ route }) => {
         <Animatable.View style={styles.containerWrite} animation='fadeInLeft'>
           <Text style={styles.questionText}>Como foi o seu dia?</Text>
           <TextInput
-            style={[styles.input, isFocused && styles.inputFocused, { textAlignVertical: 'top', }]}
+            style={[styles.input, isFocused && styles.inputFocused, { textAlignVertical: 'top' }]}
             placeholder="Hoje eu..."
-            onChangeText={(text) => setTodayActivity(text)}
-            value={todayActivity}
+            onChangeText={setActivity}
+            value={activity}
             onFocus={handleFocus}
             onBlur={handleBlur}
             numberOfLines={5}
@@ -133,8 +146,8 @@ const Write = ({ route }) => {
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
             placeholder="Resposta..."
-            onChangeText={(text) => setTodayFeelings(text)}
-            value={todayFeelings}
+            onChangeText={setFeelings}
+            value={feelings}
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
@@ -143,8 +156,8 @@ const Write = ({ route }) => {
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
             placeholder="Resposta..."
-            onChangeText={(text) => setTodayThoughts(text)}
-            value={todayThoughts}
+            onChangeText={setThoughts}
+            value={thoughts}
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
@@ -153,8 +166,8 @@ const Write = ({ route }) => {
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
             placeholder="Resposta..."
-            onChangeText={(text) => setTodayLearn(text)}
-            value={todayLearn}
+            onChangeText={setLearn}
+            value={learn}
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
@@ -163,8 +176,8 @@ const Write = ({ route }) => {
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
             placeholder="Resposta..."
-            onChangeText={(text) => setTodayGrateful(text)}
-            value={todayGrateful}
+            onChangeText= {setGrateful}
+            value={grateful}
             onFocus={handleFocus}
             onBlur={handleBlur}
             maxHeight={80}
@@ -175,8 +188,8 @@ const Write = ({ route }) => {
       </ScrollView>
 
       <Animatable.View style={styles.footer} animation='fadeInUp'>
-        <TouchableOpacity style={styles.buttonFooter} onPress={handleSave}>
-          <Text style={styles.textButton}>Salvar</Text>
+        <TouchableOpacity style={styles.buttonFooter} onPress={handleUpdate}>
+          <Text style={styles.textButton}>Atualizar</Text>
         </TouchableOpacity>
       </Animatable.View>
 
@@ -188,7 +201,7 @@ const Write = ({ route }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Diário Salvo com Sucesso!</Text>
+            <Text style={styles.modalText}>Diário Atualizado com Sucesso!</Text>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
@@ -198,6 +211,38 @@ const Write = ({ route }) => {
             >
               <Text style={styles.modalButtonText}>OK</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={modalVisibleDelete}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Você tem certeza que quer</Text>
+            <Text style={styles.modalText}>DELETAR este Registro? </Text>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setModalVisibleDelete(false);
+                }}
+              >
+                <Text style={styles.modalButtonText}>Fechar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: 'red' }]}
+                onPress={() => {
+                  deleteDocument('Registros', id)
+                }}
+              >
+                <Text style={styles.modalButtonText}>Sim</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -242,6 +287,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     marginStart: wp('4%'),
+  },
+  touchableContainer1: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginEnd: wp('4%'),
   },
   textButton: {
     fontWeight: 'bold',
@@ -348,16 +398,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
+  buttons: {
+    flexDirection: 'row'
+  },
   modalText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 5,
   },
   modalButton: {
     backgroundColor: '#556aa9',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginTop: 15,
+    marginHorizontal: 10
   },
   modalButtonText: {
     color: 'white',

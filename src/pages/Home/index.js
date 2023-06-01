@@ -5,13 +5,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const data = [
-  { image: require('../../assets/frases/Frase.png') },
-  { image: require('../../assets/frases/Frase2.png') },
-  { image: require('../../assets/frases/Frase3.png') },
-  { image: require('../../assets/frases/Frase4.png') },
-  { image: require('../../assets/frases/Frase5.png') },
-  { image: require('../../assets/frases/Frase6.png') },
-  { image: require('../../assets/frases/Frase7.png') },
+  { image: require('../../assets/frases/f1.png') },
+  { image: require('../../assets/frases/f2.png') },
+  { image: require('../../assets/frases/f4.png') },
+  { image: require('../../assets/frases/f5.png') },
+  { image: require('../../assets/frases/f6.png') },
+  { image: require('../../assets/frases/f7.png') },
+  { image: require('../../assets/frases/f8.png') },
+  { image: require('../../assets/frases/f9.png') },
+  { image: require('../../assets/frases/f10.png') },
 ];
 
 const SlideItem = ({ item }) => {

@@ -1,28 +1,43 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Registers({ data }) {
-    const registers = data.selectedButtons;    
+    const navigation = useNavigation();
+    const registers = data.selectedButtons;
+
+    const handlePress = () => {
+        navigation.navigate('Edit', {
+            selectedDate: data.formattedDate,
+            selectedButtons: data.selectedButtons,
+            emotionId: data.emotionId,
+            symbol: data.symbol,
+            todayActivity: data.todayActivity,
+            todayFeelings: data.todayFeelings,
+            todayThoughts: data.todayThoughts,
+            todayLearn: data.todayLearn,
+            todayGrateful: data.todayGrateful,
+            id: data.id
+        });
+    };
 
     return (
-        <View style={styles.container} key={data.id}>
-            <TouchableOpacity>
-                <View style={styles.header}>
-                    <Text style={styles.textDate}>{data.formattedDate}</Text>
-                    <View style={styles.emoticonContainer}>
-                        <Text style={styles.emoticon}>{data.symbol}</Text>
+        <TouchableOpacity style={styles.container} key={data.id.toString()} onPress={handlePress}>
+            <View style={styles.header}>
+                <Text style={styles.textDate}>{data.formattedDate}</Text>
+                <View style={styles.emoticonContainer}>
+                    <Text style={styles.emoticon}>{data.symbol}</Text>
+                </View>
+            </View>
+            <View style={styles.containerRegisters}>
+                {registers.map((text) => (
+                    <View style={styles.selectionRegister} >
+                        <Text style={styles.textOptions}>{text}</Text>
                     </View>
-                </View>
-                <View style={styles.containerRegisters}>
-                    {registers.map((text) => (
-                        <View style={styles.selectionRegister} >
-                            <Text style={styles.textOptions}>{text}</Text>
-                        </View>
-                    ))}
-                </View>
-            </TouchableOpacity>
-        </View>
+                ))}
+            </View>
+        </TouchableOpacity>
     );
 }
 

@@ -42,8 +42,8 @@ const Notepad = () => {
             const querySnapshot = await getDocs(querry);
             const registros = [];
             querySnapshot.forEach((doc) => {
-                const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
-                registros.push({ id: doc.id, formattedDate, symbol, selectedButtons });
+                const { selectedButtons, emotionId, symbol, formattedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful } = doc.data(); // Obter os campos desejados do documento
+                registros.push({ id: doc.id, selectedButtons, emotionId, symbol, formattedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful });
             });
             setRegistros(registros);
         };
@@ -61,8 +61,8 @@ const Notepad = () => {
             const querySnapshot = await getDocs(querry);
             const registros = [];
             querySnapshot.forEach((doc) => {
-                const { formattedDate, symbol, selectedButtons } = doc.data(); // Obter os campos desejados do documento
-                registros.push({ id: doc.id, formattedDate, symbol, selectedButtons });
+                const { selectedButtons, emotionId, symbol, formattedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful } = doc.data(); // Obter os campos desejados do documento
+                registros.push({ id: doc.id, selectedButtons, emotionId, symbol, formattedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful });
             });
             setRegistros(registros);
         };
@@ -165,8 +165,8 @@ const Notepad = () => {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                     data={registros}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <Registers data={item} key={item.id}/>}
+                    keyExtractor={(item) => item.id.toString()} // Adicione o toString() se o ID for um número
+                    renderItem={({ item }) => <Registers data={item} />}
                 />
             ) : (
                 <Animatable.Text style={styles.emptyText} animation='fadeInLeft' >Nenhum registro encontrado.</Animatable.Text>
