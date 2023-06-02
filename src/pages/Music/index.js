@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable'
@@ -10,7 +10,7 @@ const App = () => {
     return (
         <View style={styles.container}>
             <View style={styles.containerHeader}>
-                <View style={{flex: 1, marginTop:hp('8%')}}>
+                <View style={{ flex: 1, marginTop: hp('8%') }}>
                     <Text style={{ fontSize: 30, lineHeight: 55, color: 'white', fontWeight: 'bold' }}>Músicas</Text>
                     <Text style={{ fontSize: 30, lineHeight: 50, color: 'white', fontWeight: 'bold' }}>   para</Text>
                     <Text style={{ fontSize: 30, lineHeight: 55, color: 'white', fontWeight: 'bold' }}>Relaxar</Text>
@@ -24,22 +24,52 @@ const App = () => {
                         width: wp('100%'),
                         height: hp('40%'),
                         resizeMode: 'contain',
-                        marginBottom:hp('1.3%')
+                        marginBottom: hp('1.3%')
                     }}
                 />
 
             </View>
             <Animatable.View style={styles.containerCards} animation='fadeInUp' >
+                <ScrollView>
                 <View style={styles.cardList}>
-                    <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate('Relax')}}>
-                        <View style={{justifyContent:'center', alignItems:'center', flex: 1}}>
-                            <Text style={{fontWeight:'bold', fontSize:hp('4%')}}>RELAX</Text>
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
+                        <View>
+                            <Image
+                                source={require('../../assets/albuns/dreamy.jpg')}
+                                style={styles.capaRelax}
+                            />
+                        </View>
+
+                        <View>
+                            <Text style={styles.title}>Mix Relax</Text>
+                        </View>
+
+                        <View>
+                            <Text style={styles.description}>Chillpeach, Yan Yan</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.card}></TouchableOpacity>
+
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
+                        <View>
+                            <Image
+                                source={require('../../assets/albuns/butter.jpg')}
+                                style={styles.capaRelax}
+                            />
+                        </View>
+
+                        <View>
+                            <Text style={styles.title}>Mix Concentração</Text>
+                        </View>
+
+                        <View>
+                            <Text style={styles.description}>Mix Concentração</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
                     <TouchableOpacity style={styles.card}></TouchableOpacity>
                     <TouchableOpacity style={styles.card}></TouchableOpacity>
                 </View>
+                </ScrollView>
             </Animatable.View>
         </View>
     );
@@ -66,10 +96,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: hp('-5.3%')
+        marginTop: hp('-2%')
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: '#e8f7fd',
         borderRadius: 8,
         padding: 20,
         margin: 5,
@@ -82,8 +112,23 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         width: wp('45%'),
-        height: hp('20%'),
+        height: hp('30%'),
         
+    },
+    capaRelax: {
+        width: wp('37%'),
+        height: hp('16%'),
+        borderRadius: 8,
+        marginLeft: -3
+    },
+    title:{
+        fontWeight: 'bold', 
+        fontSize: hp('2%'),
+        marginTop: 10
+    },
+    description: {
+        fontSize: hp('1.7%'),
+        marginTop: 10
     },
 });
 

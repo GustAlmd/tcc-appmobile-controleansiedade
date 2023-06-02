@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions, Image} from 'react-native';
 import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
-import songs from "./model/data";
+import relaxSongs from "./model/data";
 import { Audio } from 'expo-av';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable' 
@@ -37,7 +37,7 @@ export default function Music() {
 
     async function loadAudio() {
         try {
-            const { sound } = await Audio.Sound.createAsync(songs[songIndex].url);
+            const { sound } = await Audio.Sound.createAsync(relaxSongs[songIndex].url);
             setSound(sound);
             soundRef.current = sound; // atribui o objeto de áudio ao ref
         } catch (error) {
@@ -68,9 +68,9 @@ export default function Music() {
             await soundRef.current.unloadAsync();
             setIsPlaying(false);
         }
-        const nextSongIndex = songIndex + 1 >= songs.length ? 0 : songIndex + 1;
+        const nextSongIndex = songIndex + 1 >= relaxSongs.length ? 0 : songIndex + 1;
         setSongIndex(nextSongIndex);
-        const { sound: nextSound } = await Audio.Sound.createAsync(songs[nextSongIndex].url);
+        const { sound: nextSound } = await Audio.Sound.createAsync(relaxSongs[nextSongIndex].url);
         setSound(nextSound);
         soundRef.current = nextSound; // atribui o objeto de áudio ao ref
         playSound();
@@ -81,9 +81,9 @@ export default function Music() {
             await soundRef.current.unloadAsync();
             setIsPlaying(false);
         }
-        const previousSongIndex = songIndex - 1 < 0 ? songs.length - 1 : songIndex - 1;
+        const previousSongIndex = songIndex - 1 < 0 ? relaxSongs.length - 1 : songIndex - 1;
         setSongIndex(previousSongIndex);
-        const { sound: nextSound } = await Audio.Sound.createAsync(songs[previousSongIndex].url);
+        const { sound: nextSound } = await Audio.Sound.createAsync(relaxSongs[previousSongIndex].url);
         setSound(nextSound);
         soundRef.current = nextSound; // atribui o objeto de áudio ao ref
         playSound();
@@ -100,12 +100,12 @@ export default function Music() {
             <View style={styles.maincontainer}  >
 
                 {/* image */}
-                <Animatable.Image style={styles.artwork} source={songs[songIndex].artwork } animation='fadeInDown' />
+                <Animatable.Image style={styles.artwork} source={relaxSongs[songIndex].artwork } animation='fadeInDown' />
 
                 {/* Song Content */}
                 <Animatable.View animation='fadeInRight'>
-                    <Text style={[styles.songContent, styles.songTitle]}> {songs[songIndex].title} </Text>
-                    <Text style={[styles.songContent, styles.songArtist]}> {songs[songIndex].artist} </Text>
+                    <Text style={[styles.songContent, styles.songTitle]}> {relaxSongs[songIndex].title} </Text>
+                    <Text style={[styles.songContent, styles.songArtist]}> {relaxSongs[songIndex].artist} </Text>
                 </Animatable.View>
 
                 {/* slider */}

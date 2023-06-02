@@ -1,28 +1,44 @@
-const songs = [
+const relaxSongs = [
 
   {
     id: 1,
-    title: 'La Leçõn Particulière',
-    artist: 'Francis Lai',
-    artwork: require('../../../assets/albuns/la_lecon_particuliere.jpg'),
-    url: require('../../../assets/audio/lecon.mp3'),
+    title: 'Dreamy Mode',
+    artist: 'Chillpeach',
+    artwork: require('../../../assets/albuns/dreamy.jpg'),
+    url: require('../../../assets/audio/relax/DreamyMode.mp3'),
   },
   
   {
     id: 2,
-    title: 'Rain',
-    artist: 'Veigh',
-    artwork: require('../../../assets/albuns/veigh_Rain.jpg'),
-    url: require('../../../assets/audio/veigh.mp3'),
+    title: 'In Dreamland',
+    artist: 'Chillpeach',
+    artwork: require('../../../assets/albuns/inDreamland.jpg'),
+    url: require('../../../assets/audio/relax/InDreamland.mp3'),
   },
 
   {
     id: 3,
-    title: 'AUTOMOTIVO DA SEQUENCIA INTER-CELESTIAL 1.0 ',
-    artist: 'DJ Drey & DJ Almeida',
-    artwork: require('../../../assets/albuns/automotivo_interCelestial.jpg'),
-    url: require('../../../assets/audio/automotivo.mp3'),
+    title: 'Jelly Fish',
+    artist: 'Chillpeach',
+    artwork: require('../../../assets/albuns/jellyFish.jpg'),
+    url: require('../../../assets/audio/relax/JellyFish.mp3'),
+  },
+
+  {
+    id: 4,
+    title: 'Honey Jam',
+    artist: 'Chillpeach',
+    artwork: require('../../../assets/albuns/honeyJam.jpg'),
+    url: require('../../../assets/audio/relax/honeyjam.mp3'),
+  },
+
+  {
+    id: 5,
+    title: 'Free Bgm',
+    artist: 'Yan Yan',
+    artwork: require('../../../assets/albuns/freebgm.jpg'),
+    url: require('../../../assets/audio/relax/11mins.mp3'),
   },
 ];
 
-export default songs;
+export default relaxSongs;
