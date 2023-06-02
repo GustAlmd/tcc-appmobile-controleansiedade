@@ -96,10 +96,25 @@ const App = () => {
 
       </ScrollView>
 
-      <Text style={styles.title}>Linguagens Usadas</Text>
-      <Animatable.View animation='fadeInUp'>
-        <Image source={require('../../assets/logo/reactNativeLogo.png')} style={styles.logo} />
-      </Animatable.View>
+      <Text style={[styles.title,{marginBottom:hp('4%')}]}>Tecnologias Usadas</Text>
+      <View style={{flexDirection: 'row', marginBottom:hp('5%'), justifyContent:'center', textAlign:'center'}}>
+        <TouchableOpacity onPress={() => { }}>
+          <Animatable.View animation='fadeInUp'>
+            <Image source={require('../../assets/logo/reactNativeLogo.png')} style={styles.logoReact} />
+          </Animatable.View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { }}>
+          <Animatable.View animation='fadeInUp'>
+            <Image source={require('../../assets/logo/expoLogo.png')} style={styles.logoExpo} />
+          </Animatable.View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { }}>
+          <Animatable.View animation='fadeInUp'>
+            <Image source={require('../../assets/logo/firebaseLogo.png')} style={styles.logoFirebase} />
+          </Animatable.View>
+        </TouchableOpacity>
+      </View>
+
     </ScrollView>
 
   );
@@ -127,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 15,
     fontWeight: 'bold',
-    textAlign: 'justify',
+    textAlign: 'center',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
@@ -145,7 +160,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
     width: wp('90%'),
-    backgroundColor: '#8896d7'
+    backgroundColor: '#8896d7',
+    justifyContent: 'center',
   },
   image: {
     width: 80,
@@ -172,10 +188,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#121212',
   },
-  logo: {
-    width: 115,
-    height: 100,
-    marginVertical: 10,
+  logoReact: {
+    width: wp('25%'),
+    height: hp('10.8%'),
+    marginHorizontal: wp('2%')
+  },
+  logoExpo: {
+    width: wp('23.5%'),
+    height: hp('11.3%'),
+    marginHorizontal: wp('2%')
+  },
+  logoFirebase: {
+    width: wp('25%'),
+    height: hp('16%'),
+    marginHorizontal: wp('2%'),
+    marginTop: hp('-3%')
   },
 });
 

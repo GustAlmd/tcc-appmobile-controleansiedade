@@ -8,7 +8,6 @@ import { db } from '../../firebaseConnection';
 import { AuthContext } from '../../context/auth'
 import * as Animatable from 'react-native-animatable' 
 
-
 const Write = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { user } = useContext(AuthContext);

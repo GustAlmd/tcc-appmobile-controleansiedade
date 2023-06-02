@@ -29,10 +29,10 @@ const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.containerHeader}>
-
-        <Text style={{fontSize:30, lineHeight:45, color:'white', fontWeight: 'bold'}}>Exercícios</Text>
-        <Text style={{fontSize:30, lineHeight:30, color:'white', fontWeight: 'bold'}}>       de</Text>
-        <Text style={{fontSize:30, lineHeight:30, color:'white', fontWeight: 'bold'}}>Respiração</Text>
+        
+        <Text style={{fontSize:30, lineHeight:55, color:'white', fontWeight: 'bold'}}>Exercícios</Text>
+        <Text style={{fontSize:30, lineHeight:35, color:'white', fontWeight: 'bold'}}>       de</Text>
+        <Text style={{fontSize:30, lineHeight:45, color:'white', fontWeight: 'bold'}}>Respiração</Text>
 
         <Image
           source={require('../../assets/games.png')}

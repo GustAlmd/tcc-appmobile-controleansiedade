@@ -6,7 +6,8 @@ import { View, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Home from "../pages/Home";
-import Music from '../pages/Music';
+import Music from '../pages/Music/index';
+import Relax from '../pages/Music/music';
 import Profile from '../pages/Profile/index';
 import About from '../pages/Profile/about'
 import Games from '../pages/Games/index';
@@ -31,6 +32,7 @@ function AppRoutes() {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="HomeMain" component={TabNavigator} />
+      <AppStack.Screen name="Ansiedade" component={Ansiedade}/>
     </AppStack.Navigator>
   );
 }
@@ -152,21 +154,6 @@ function GamesNavigation() {
           },
         }}
       />
-      <AppStack.Screen name="Ansiedade" component={Ansiedade}
-        options={{
-          headerShown: true,
-          title: 'MindRest',
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#556aa9',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-
-            fontWeight: 'bold',
-          },
-        }}
-      />
       <AppStack.Screen name="Concentracao" component={Concentracao}
         options={{
           headerShown: true,
@@ -204,6 +191,7 @@ function MusicNavigation() {
           },
         }}
       />
+      <AppStack.Screen name="Relax" component={Relax} />
     </AppStack.Navigator>
   );
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Animated, Easing, TouchableOpacity, Text } from 'react-native';
+import { View, Animated, Easing, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Ionicons } from "@expo/vector-icons";
 
 class BreathingAnimation extends Component {
     constructor(props) {
@@ -10,8 +12,6 @@ class BreathingAnimation extends Component {
         };
     }
 
-    
-    
     componentDidMount() {
         this.pauseBreathing();
     }
@@ -33,7 +33,7 @@ class BreathingAnimation extends Component {
                         easing: Easing.inOut(Easing.ease),
                         useNativeDriver: true,
                     }),
-                    
+
                 ]),
             ).start();
         });
@@ -55,6 +55,7 @@ class BreathingAnimation extends Component {
     };
 
     render() {
+        
         const { breathAnim, isAnimating } = this.state;
 
         const breathStyle = {
@@ -73,35 +74,68 @@ class BreathingAnimation extends Component {
         };
 
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#8896d7' }}>
+            <View style={styles.container}>
 
-                <Animated.View
-                    style={{
-                        width: 200,
-                        height: 200,
-                        borderRadius: 100,
-                        backgroundColor: 'blue',
-                        ...breathStyle,
-                    }}
-                />
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Games'); }}>
+                        <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
+                    </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity
-                    onPress={isAnimating ? this.pauseBreathing : this.startBreathing}
-                    style={{
-                        padding: 10,
-                        backgroundColor: isAnimating ? 'red' : 'green',
-                        borderRadius: 5,
-                        marginTop: 100
-                    }}
-                >
-                    <Text style={{ color: 'white' }}>
-                        {isAnimating ? 'Pausar' : 'Começar'}
-                    </Text>
-                </TouchableOpacity>
-
+                <View style={styles.main}>
+                    <Animated.View
+                        style={{
+                            width: 200,
+                            height: 200,
+                            borderRadius: 100,
+                            backgroundColor: '#708090',
+                            ...breathStyle,
+                        }}
+                    />
+                    <TouchableOpacity
+                        onPress={isAnimating ? this.pauseBreathing : this.startBreathing}
+                        style={{
+                            padding: 10,
+                            backgroundColor: isAnimating ? 'red' : 'green',
+                            borderRadius: 5,
+                            marginTop: 100
+                        }}
+                    >
+                        <Text style={{ color: 'white' }}>
+                            {isAnimating ? 'Pausar' : 'Começar'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
 }
+const styles = StyleSheet.create({
+
+    container: {
+        backgroundColor: '#556aa9',
+        flex: 1
+    },
+
+    main: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+
+    header: {
+        position: 'absolute',
+        width: wp('100%'),
+        height: hp('7%'),
+        backgroundColor: 'transparent',
+    },
+
+    touchableContainer: {
+        flex: 1,
+        alignItems: 'flex-end',
+        marginEnd: wp('4%')
+    },
+});
 
 export default BreathingAnimation;
