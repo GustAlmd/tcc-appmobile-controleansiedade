@@ -8,7 +8,7 @@ const App = () => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.containerHeader}>
                 <View style={{ flex: 1, marginTop: hp('8%') }}>
                     <Text style={{ fontSize: 30, lineHeight: 55, color: 'white', fontWeight: 'bold' }}>Músicas</Text>
@@ -30,7 +30,6 @@ const App = () => {
 
             </View>
             <Animatable.View style={styles.containerCards} animation='fadeInUp' >
-                <ScrollView>
                 <View style={styles.cardList}>
                     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
                         <View>
@@ -69,9 +68,8 @@ const App = () => {
                     <TouchableOpacity style={styles.card}></TouchableOpacity>
                     <TouchableOpacity style={styles.card}></TouchableOpacity>
                 </View>
-                </ScrollView>
             </Animatable.View>
-        </View>
+        </ScrollView>
     );
 };
 

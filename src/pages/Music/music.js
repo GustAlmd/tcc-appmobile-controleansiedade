@@ -155,7 +155,7 @@ export default function Music() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#8896d7'
+        backgroundColor: '#556aa9'
     },
 
     maincontainer: {

@@ -77,7 +77,7 @@ class BreathingAnimation extends Component {
             <View style={styles.container}>
 
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('Games'); }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Games') }}>
                         <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
                     </TouchableOpacity>
                 </View>
@@ -101,6 +101,7 @@ class BreathingAnimation extends Component {
                             marginTop: 100
                         }}
                     >
+                        
                         <Text style={{ color: 'white' }}>
                             {isAnimating ? 'Pausar' : 'Começar'}
                         </Text>
@@ -128,6 +129,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: wp('100%'),
         height: hp('7%'),
+        marginTop: hp('2%'),
+        marginStart: wp('5%'),
         backgroundColor: 'transparent',
     },
 
