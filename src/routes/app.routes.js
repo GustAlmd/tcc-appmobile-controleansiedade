@@ -8,6 +8,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Home from "../pages/Home";
 import Music from '../pages/Music/index';
 import Relax from '../pages/Music/music';
+import Concentration from '../pages/Music/concentration'
 import Profile from '../pages/Profile/index';
 import About from '../pages/Profile/about'
 import Games from '../pages/Games/index';
@@ -192,6 +193,7 @@ function MusicNavigation() {
         }}
       />
       <AppStack.Screen name="Relax" component={Relax} />
+      <AppStack.Screen name="Concentration" component={Concentration} />
     </AppStack.Navigator>
   );
 }

@@ -38,28 +38,24 @@ const App = () => {
                                 style={styles.capaRelax}
                             />
                         </View>
-
                         <View>
                             <Text style={styles.title}>Mix Relax</Text>
                         </View>
-
                         <View>
                             <Text style={styles.description}>Chillpeach, Yan Yan</Text>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Concentration') }}>
                         <View>
                             <Image
                                 source={require('../../assets/albuns/butter.jpg')}
                                 style={styles.capaRelax}
                             />
                         </View>
-
                         <View>
                             <Text style={styles.title}>Mix Concentração</Text>
                         </View>
-
                         <View>
                             <Text style={styles.description}>Mix Concentração</Text>
                         </View>
