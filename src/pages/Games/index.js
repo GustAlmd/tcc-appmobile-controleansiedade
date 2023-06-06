@@ -5,7 +5,6 @@ import gameData from './data';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable'
 
-
 const Card = ({ title, description, navigate }) => {
   return (
     <TouchableOpacity style={styles.card} onPress={navigate}>

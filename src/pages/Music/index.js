@@ -42,7 +42,7 @@ const App = () => {
                             <Text style={styles.title}>Mix Relax</Text>
                         </View>
                         <View>
-                            <Text style={styles.description}>Chillpeach, Yan Yan</Text>
+                            <Text style={styles.description}>Chillpeach, Yan Yan...</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -57,7 +57,7 @@ const App = () => {
                             <Text style={styles.title}>Mix Concentração</Text>
                         </View>
                         <View>
-                            <Text style={styles.description}>Mix Concentração</Text>
+                            <Text style={styles.description}>Lukrembo, TossedOnion...</Text>
                         </View>
                     </TouchableOpacity>
                     
