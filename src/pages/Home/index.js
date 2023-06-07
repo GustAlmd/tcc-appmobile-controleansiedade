@@ -14,6 +14,13 @@ const data = [
   { image: require('../../assets/frases/f8.png') },
   { image: require('../../assets/frases/f9.png') },
   { image: require('../../assets/frases/f10.png') },
+  { image: require('../../assets/frases/f11.png') },
+  { image: require('../../assets/frases/f12.png') },
+  { image: require('../../assets/frases/f13.png') },
+  { image: require('../../assets/frases/f14.png') },
+  { image: require('../../assets/frases/f15.png') },
+  { image: require('../../assets/frases/f16.png') },
+  { image: require('../../assets/frases/f17.png') },
 ];
 
 const SlideItem = ({ item }) => {
