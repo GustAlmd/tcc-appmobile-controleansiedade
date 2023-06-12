@@ -34,7 +34,7 @@ const App = () => {
                     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
                         <View>
                             <Image
-                                source={require('../../assets/albuns/dreamy.jpg')}
+                                source={require('../../assets/albuns/dreaamy.png')}
                                 style={styles.capaRelax}
                             />
                         </View>
@@ -54,7 +54,7 @@ const App = () => {
                             />
                         </View>
                         <View>
-                            <Text style={styles.title}>Mix Concentração</Text>
+                            <Text style={styles.title}>Mix Concentration</Text>
                         </View>
                         <View>
                             <Text style={styles.description}>Lukrembo, TossedOnion...</Text>

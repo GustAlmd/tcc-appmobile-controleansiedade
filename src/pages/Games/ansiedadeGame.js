@@ -6,9 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const App = () => {
     const navigation = useNavigation();
-    const [breathAnim] = useState(new Animated.Value(0));
+    const [ballAnim] = useState(new Animated.Value(0));
+    const [textAnim] = useState(new Animated.Value(0));
     const [isAnimating, setIsAnimating] = useState(false);
     const [breathText, setBreathText] = useState('');
+    const [repetitions, setRepetitions] = useState(0);
 
     useEffect(() => {
         pauseBreathing();
@@ -16,44 +18,78 @@ const App = () => {
 
     const startBreathing = () => {
         setIsAnimating(true);
-        animateBreath('Inspire', 4000, () => {
-            animateBreath('Segure a Respiração', 3000, () => {
-                animateBreath('Expire', 4000, () => {
-                    setIsAnimating(false);
-                    setBreathText('');
+        animateBall();
+       
+            animateText('Relaxe', 3000, () => {
+                animateText('Inspire', 4000, () => {
+                    animateText('Segure a Respiração', 3000, () => {
+                        animateText('Expire', 4000, () => {
+                            if (repetitions < 3) {
+                                setRepetitions(repetitions + 1);
+                                startBreathing();
+                            } else {
+                                setIsAnimating(false);
+                                setBreathText('');
+                                setRepetitions(0);
+                            }
+                        });
+                    });
                 });
             });
-        });
     };
 
-    const animateBreath = (text, duration, callback) => {
+    const animateBall = () => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.delay(3000),
+                Animated.timing(ballAnim, {
+                    toValue: 1,
+                    duration: 4000,
+                    easing: Easing.inOut(Easing.ease),
+                    useNativeDriver: true,
+                }),
+                Animated.delay(3000),
+                Animated.timing(ballAnim, {
+                    toValue: 0,
+                    duration: 4000,
+                    easing: Easing.inOut(Easing.ease),
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+    };
+
+    const animateText = (text, duration, callback) => {
         setBreathText(text);
-        Animated.timing(breathAnim, {
+        Animated.timing(textAnim, {
             toValue: 1,
             duration: duration,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: true,
         }).start(() => {
             setBreathText('');
-            breathAnim.setValue(0); // Redefine o valor da animação para 0
+            textAnim.setValue(0);
             callback && callback();
         });
     };
 
     const pauseBreathing = () => {
         setIsAnimating(false);
-        breathAnim.stopAnimation(); // Interrompe a animação atual
-        breathAnim.setValue(0); // Redefine o valor da animação para 0
+        ballAnim.stopAnimation();
+        textAnim.stopAnimation();
+        textAnim.setValue(0);
+        setBreathText('');
+        
     };
 
-    const breathStyle = {
-        opacity: breathAnim.interpolate({
+    const ballStyle = {
+        opacity: ballAnim.interpolate({
             inputRange: [0, 1],
             outputRange: [1, 0.5],
         }),
         transform: [
             {
-                scale: breathAnim.interpolate({
+                scale: ballAnim.interpolate({
                     inputRange: [0, 1],
                     outputRange: [1, 1.5],
                 }),
@@ -61,10 +97,14 @@ const App = () => {
         ],
     };
 
+    const textStyle = {
+        opacity: textAnim,
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => { navigation.navigate('Games');}}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Games'); }}>
                     <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -76,11 +116,13 @@ const App = () => {
                         height: 200,
                         borderRadius: 100,
                         backgroundColor: '#5086c1',
-                        ...breathStyle,
+                        ...ballStyle,
                     }}
                 />
 
-                <Text style={styles.breathText}>{breathText}</Text>
+                <Animated.Text style={[styles.breathText, textStyle]}>
+                    {breathText}
+                </Animated.Text>
 
                 <TouchableOpacity
                     onPress={isAnimating ? pauseBreathing : startBreathing}
