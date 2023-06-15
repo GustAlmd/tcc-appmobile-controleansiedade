@@ -23,21 +23,23 @@ export default function Registers({ data }) {
     };
 
     return (
-        <TouchableOpacity style={styles.container} key={data.id.toString()} onPress={handlePress}>
-            <View style={styles.header}>
-                <Text style={styles.textDate}>{data.formattedDate}</Text>
-                <View style={styles.emoticonContainer}>
-                    <Text style={styles.emoticon}>{data.symbol}</Text>
-                </View>
-            </View>
-            <View style={styles.containerRegisters}>
-                {registers.map((text) => (
-                    <View style={styles.selectionRegister} >
-                        <Text style={styles.textOptions}>{text}</Text>
+        <View key={data.id}>
+            <TouchableOpacity style={styles.container} onPress={handlePress}>
+                <View style={styles.header}>
+                    <Text style={styles.textDate}>{data.formattedDate}</Text>
+                    <View style={styles.emoticonContainer}>
+                        <Text style={styles.emoticon}>{data.symbol}</Text>
                     </View>
-                ))}
-            </View>
-        </TouchableOpacity>
+                </View>
+                <View style={styles.containerRegisters}>
+                    {registers.map((text, index) => (
+                        <View key={index.toString()} style={styles.selectionRegister} >
+                            <Text style={styles.textOptions}>{text}</Text>
+                        </View>
+                    ))}
+                </View>
+            </TouchableOpacity>
+        </View>
     );
 }
 

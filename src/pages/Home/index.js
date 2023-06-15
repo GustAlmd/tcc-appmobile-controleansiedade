@@ -38,7 +38,7 @@ const Slide = () => {
   const shareImage = async () => {
     try {
       await Share.share({
-        message: 'Confira essa imagem incrível!',
+        message: 'Vi essa imagem e lembrei de você! "Direto do App MindRest."',
         url: data[0].image.uri,
       });
     } catch (error) {

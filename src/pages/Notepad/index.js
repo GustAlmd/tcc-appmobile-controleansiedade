@@ -165,7 +165,6 @@ const Notepad = () => {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                     data={registros}
-                    keyExtractor={(item) => item.id.toString()} // Adicione o toString() se o ID for um número
                     renderItem={({ item }) => <Registers data={item} />}
                 />
             ) : (

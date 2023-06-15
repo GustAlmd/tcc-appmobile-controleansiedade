@@ -1,19 +1,20 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Home from "../pages/Home";
 import Music from '../pages/Music/index';
-import Relax from '../pages/Music/music';
+import Relax from '../pages/Music/relax';
 import Concentration from '../pages/Music/concentration'
+import CalmDown from '../pages/Music/calmDown'
 import Profile from '../pages/Profile/index';
 import About from '../pages/Profile/about'
-import Games from '../pages/Games/index';
-import Ansiedade from '../pages/Games/ansiedadeGame';
-import Concentracao from '../pages/Games/concentracaoGame'
+import Exercises from '../pages/Exercises/index';
+import Ansiedade from '../pages/Exercises/ansiedade';
+import Concentracao from '../pages/Exercises/concentracao'
 import Notepad from '../pages/Notepad/index';
 import Write from '../pages/Notepad/write';
 import SelectButtons from '../pages/Notepad/selectButtons';
@@ -72,11 +73,11 @@ function TabNavigator() {
       />
 
       <Tab.Screen
-        name="Jogos"
-        component={GamesNavigation}
+        name="Exercícios"
+        component={ExercisesNavigation}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <Feather name="play" size={size} color={color} />
+            <MaterialCommunityIcons name="weather-windy" size={size} color={color} />
           )
         }}
       />
@@ -137,10 +138,10 @@ function HomeNavigation() {
   );
 }
 
-function GamesNavigation() {
+function ExercisesNavigation() {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="Games" component={Games}
+      <AppStack.Screen name="Exercises" component={Exercises}
         options={{
           headerShown: true,
           headerTitle: () => <HeaderTitleWithImage/>,
@@ -193,6 +194,7 @@ function MusicNavigation() {
         }}
       />
       <AppStack.Screen name="Relax" component={Relax} />
+      <AppStack.Screen name="CalmDown" component={CalmDown} />
       <AppStack.Screen name="Concentration" component={Concentration} />
     </AppStack.Navigator>
   );

@@ -61,8 +61,35 @@ const App = () => {
                         </View>
                     </TouchableOpacity>
                     
-                    <TouchableOpacity style={styles.card}></TouchableOpacity>
-                    <TouchableOpacity style={styles.card}></TouchableOpacity>
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('CalmDown') }}>
+                        <View>
+                            <Image
+                                source={require('../../assets/albuns/undefined.jpg')}
+                                style={styles.capaRelax}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.title}>Mix Calm Down</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.description}>Tokyo Rain, Hakaisu...</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('CalmDown') }}>
+                        <View>
+                            <Image
+                                source={require('../../assets/albuns/undefined.jpg')}
+                                style={styles.capaRelax}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.title}>???</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.description}>???</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </Animatable.View>
         </ScrollView>
