@@ -5,10 +5,12 @@ import { Ionicons } from "@expo/vector-icons";
 import relaxSongs from "./model/relax";
 import { Audio } from 'expo-av';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as Animatable from 'react-native-animatable' 
+import * as Animatable from 'react-native-animatable'
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function Music() {
 
+    const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [songIndex, setSongIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -99,6 +101,12 @@ export default function Music() {
         <SafeAreaView style={styles.container}>
             <View style={styles.maincontainer}  >
 
+            <View style={styles.touchableContainer}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Music'); }}>
+                    <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
+                </TouchableOpacity>
+            </View>
+
                 {/* image */}
                 <Animatable.Image style={styles.artwork} source={relaxSongs[songIndex].artwork } animation='fadeInDown' />
 
@@ -162,7 +170,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10
+        marginBottom: 20
     },
 
     songContent: {
@@ -218,7 +226,9 @@ const styles = StyleSheet.create({
         width: wp('60%'),
         marginTop: hp('5%'),
         marginBottom: ('8%')
-
     },
 
+    touchableContainer: {
+        marginRight: wp('80%'),
+    },
 });

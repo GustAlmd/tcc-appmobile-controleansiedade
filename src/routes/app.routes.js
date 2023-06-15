@@ -14,7 +14,7 @@ import Profile from '../pages/Profile/index';
 import About from '../pages/Profile/about'
 import Exercises from '../pages/Exercises/index';
 import Ansiedade from '../pages/Exercises/ansiedade';
-import Concentracao from '../pages/Exercises/concentracao'
+import Estresse from '../pages/Exercises/estresse'
 import Notepad from '../pages/Notepad/index';
 import Write from '../pages/Notepad/write';
 import SelectButtons from '../pages/Notepad/selectButtons';
@@ -156,20 +156,7 @@ function ExercisesNavigation() {
           },
         }}
       />
-      <AppStack.Screen name="Concentracao" component={Concentracao}
-        options={{
-          headerShown: true,
-          title: 'MindRest',
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#556aa9',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-
-            fontWeight: 'bold',
-          },
-        }}
+      <AppStack.Screen name="Estresse" component={Estresse}
       />
     </AppStack.Navigator>
   );

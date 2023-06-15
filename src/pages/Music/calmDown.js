@@ -1,21 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions, Image} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
-import concentrationSongs from "./model/calmDown";
+import calmDownSongs from "./model/calmDown";
 import { Audio } from 'expo-av';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as Animatable from 'react-native-animatable' 
+import * as Animatable from 'react-native-animatable'
+import { useNavigation } from '@react-navigation/native';
 
 export default function CalmDown() {
 
+    const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [songIndex, setSongIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0); // novo estado para controlar o valor da barra de progresso
     const [currentDuration, setCurrentDuration] = useState(0);
     const [totalDuration, setTotalDuration] = useState(0);
-    
+
     const soundRef = useRef(null); // novo ref para obter uma referência ao objeto de áudio
 
     useEffect(() => {
@@ -24,20 +26,20 @@ export default function CalmDown() {
 
     useEffect(() => {
         const interval = setInterval(async () => {
-          const status = await sound.getStatusAsync();
-          const currentDuration = status.positionMillis || 0;
-          const totalDuration = status.durationMillis || 0;
-          const progress = totalDuration !== 0 ? currentDuration / totalDuration : 0;
-          setProgress(progress);
-          setCurrentDuration(currentDuration);
-          setTotalDuration(totalDuration);
+            const status = await sound.getStatusAsync();
+            const currentDuration = status.positionMillis || 0;
+            const totalDuration = status.durationMillis || 0;
+            const progress = totalDuration !== 0 ? currentDuration / totalDuration : 0;
+            setProgress(progress);
+            setCurrentDuration(currentDuration);
+            setTotalDuration(totalDuration);
         }, 1000);
         return () => clearInterval(interval);
-      }, [sound]);      
+    }, [sound]);
 
     async function loadAudio() {
         try {
-            const { sound } = await Audio.Sound.createAsync(concentrationSongs[songIndex].url);
+            const { sound } = await Audio.Sound.createAsync(calmDownSongs[songIndex].url);
             setSound(sound);
             soundRef.current = sound; // atribui o objeto de áudio ao ref
         } catch (error) {
@@ -53,7 +55,7 @@ export default function CalmDown() {
             console.log(error);
         }
     }
-    
+
     async function pauseSound() {
         try {
             await soundRef.current.pauseAsync();
@@ -62,28 +64,28 @@ export default function CalmDown() {
             console.log(error);
         }
     }
-    
+
     async function handleNext() {
         if (soundRef.current) {
             await soundRef.current.unloadAsync();
             setIsPlaying(false);
         }
-        const nextSongIndex = songIndex + 1 >= concentrationSongs.length ? 0 : songIndex + 1;
+        const nextSongIndex = songIndex + 1 >= calmDownSongs.length ? 0 : songIndex + 1;
         setSongIndex(nextSongIndex);
-        const { sound: nextSound } = await Audio.Sound.createAsync(concentrationSongs[nextSongIndex].url);
+        const { sound: nextSound } = await Audio.Sound.createAsync(calmDownSongs[nextSongIndex].url);
         setSound(nextSound);
         soundRef.current = nextSound; // atribui o objeto de áudio ao ref
         playSound();
     }
-    
+
     async function handlePrevious() {
         if (soundRef.current) {
             await soundRef.current.unloadAsync();
             setIsPlaying(false);
         }
-        const previousSongIndex = songIndex - 1 < 0 ? concentrationSongs.length - 1 : songIndex - 1;
+        const previousSongIndex = songIndex - 1 < 0 ? calmDownSongs.length - 1 : songIndex - 1;
         setSongIndex(previousSongIndex);
-        const { sound: nextSound } = await Audio.Sound.createAsync(concentrationSongs[previousSongIndex].url);
+        const { sound: nextSound } = await Audio.Sound.createAsync(calmDownSongs[previousSongIndex].url);
         setSound(nextSound);
         soundRef.current = nextSound; // atribui o objeto de áudio ao ref
         playSound();
@@ -93,19 +95,26 @@ export default function CalmDown() {
         const minutes = Math.floor(duration / 60000);
         const seconds = Math.floor((duration % 60000) / 1000);
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.maincontainer}  >
+            <View style={styles.maincontainer}>
+
+                <View style={styles.touchableContainer}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Music'); }}>
+                        <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
+                    </TouchableOpacity>
+                </View>
+
 
                 {/* image */}
-                <Animatable.Image style={styles.artwork} source={concentrationSongs[songIndex].artwork } animation='fadeInDown' />
+                <Animatable.Image style={styles.artwork} source={calmDownSongs[songIndex].artwork} animation='fadeInDown' />
 
                 {/* Song Content */}
                 <Animatable.View animation='fadeInRight'>
-                    <Text style={[styles.songContent, styles.songTitle]}> {concentrationSongs[songIndex].title} </Text>
-                    <Text style={[styles.songContent, styles.songArtist]}> {concentrationSongs[songIndex].artist} </Text>
+                    <Text style={[styles.songContent, styles.songTitle]}> {calmDownSongs[songIndex].title} </Text>
+                    <Text style={[styles.songContent, styles.songArtist]}> {calmDownSongs[songIndex].artist} </Text>
                 </Animatable.View>
 
                 {/* slider */}
@@ -162,7 +171,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10
+        marginBottom: 20
     },
 
     songContent: {
@@ -178,8 +187,8 @@ const styles = StyleSheet.create({
         borderRadius: wp('10%'),
         marginBottom: hp('4%'),
         marginTop: hp('8%')
-      },  
-    
+    },
+
     songTitle: {
         fontSize: wp('7%'),
         fontWeight: 'bold',
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
     },
 
     songArtist: {
-        fontSize:  wp('4%'),
+        fontSize: wp('4%'),
         textAlign: 'center',
         color: '#EEEEEE'
     },
@@ -218,7 +227,10 @@ const styles = StyleSheet.create({
         width: wp('60%'),
         marginTop: hp('5%'),
         marginBottom: ('8%')
+    },
 
+    touchableContainer: {
+        marginRight: wp('80%'),
     },
 
 });

@@ -112,10 +112,10 @@ const App = () => {
             <View style={styles.main}>
                 <Animated.View
                     style={{
-                        width: 200,
-                        height: 200,
-                        borderRadius: 100,
-                        backgroundColor: '#5086c1',
+                        width: 160,
+                        height: 160,
+                        borderRadius: 8,
+                        backgroundColor: '#2256a6',
                         ...ballStyle,
                     }}
                 />
@@ -131,7 +131,7 @@ const App = () => {
                             height: hp('5%'),
                             width: wp('20%'),
                             padding: 10,
-                            backgroundColor: '#5086c1',
+                            backgroundColor: '#2256a6',
                             borderRadius: 5,
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: hp('3%')
+        marginTop: hp('10%')
     },
     header: {
         position: 'absolute',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         marginTop: hp('8%'),
     },
     touchableContainer: {
-        marginLeft: 20,
-        marginTop: 30
-    },
+      marginLeft: 20,
+      marginTop: 30
+  },
 });

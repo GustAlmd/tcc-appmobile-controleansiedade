@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import gameData from './data';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable'
 
@@ -28,10 +27,10 @@ const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.containerHeader}>
-        
-        <Text style={{fontSize:30, lineHeight:55, color:'white', fontWeight: 'bold'}}>Exercícios</Text>
-        <Text style={{fontSize:30, lineHeight:35, color:'white', fontWeight: 'bold'}}>       de</Text>
-        <Text style={{fontSize:30, lineHeight:45, color:'white', fontWeight: 'bold'}}>Respiração</Text>
+
+        <Text style={{ fontSize: 30, lineHeight: 55, color: 'white', fontWeight: 'bold' }}>Exercícios</Text>
+        <Text style={{ fontSize: 30, lineHeight: 35, color: 'white', fontWeight: 'bold' }}>       de</Text>
+        <Text style={{ fontSize: 30, lineHeight: 45, color: 'white', fontWeight: 'bold' }}>Respiração</Text>
 
         <Image
           source={require('../../assets/games.png')}
@@ -41,19 +40,43 @@ const App = () => {
             right: wp('-20%'),
             width: wp('100%'),
             height: hp('40%'),
-            resizeMode:'contain'
+            resizeMode: 'contain'
           }}
         />
-
       </View>
+
       <Animatable.View style={styles.containerCards} animation='fadeInUp' >
-        <FlatList
-          data={gameData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          contentContainerStyle={styles.cardList}
-        />
+        <View style={styles.cardList}>
+          <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Ansiedade') }}>
+            <View>
+              <Image
+                source={require('../../assets/albuns/circle.png')}
+                style={styles.capaRelax}
+              />
+            </View>
+            <View>
+              <Text style={styles.title}>Controle sua Ansiedade</Text>
+            </View>
+            <View>
+              <Text style={styles.description}>???</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Estresse') }}>
+            <View>
+              <Image
+                source={require('../../assets/albuns/square.png')}
+                style={styles.stress}
+              />
+            </View>
+            <View>
+              <Text style={styles.stressTitle}>Controle seu Estresse</Text>
+            </View>
+            <View>
+              <Text style={styles.description}>???</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animatable.View>
     </View>
   );
@@ -64,23 +87,28 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative'
   },
+
   containerHeader: {
     height: hp('40%'),
     backgroundColor: '#556aa9',
     position: 'relative',
     padding: wp('5%'),
   },
+
   cardList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    marginTop: 12,
+    justifyContent: 'center',
   },
+
   containerCards: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -35,
-    
+    marginTop: hp('-20%')
   },
+
   card: {
     backgroundColor: '#e8f7fd',
     borderRadius: 8,
@@ -95,15 +123,39 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: wp('45%'),
-    height: hp('20%')
-    
+    height: hp('30%'),
   },
+
+  capaRelax: {
+    width: wp('37%'),
+    height: hp('16%'),
+    borderRadius: 0,
+    marginLeft: -3
+  },
+
+  stress: {
+    width: wp('30%'),
+    height: hp('14%'),
+    borderRadius: 8,
+    marginLeft: 10,
+    marginTop: hp('1%')
+  },
+
   title: {
-    fontSize: 18,
     fontWeight: 'bold',
+    fontSize: hp('2%'),
+    marginTop: 10
   },
+
+  stressTitle: {
+    fontWeight: 'bold',
+    fontSize: hp('2%'),
+    marginTop: hp('2.1%')
+  },
+
   description: {
-    fontSize: 16,
+    fontSize: hp('1.7%'),
+    marginTop: 10
   },
   titleGame: {
     fontWeight: 'bold',
