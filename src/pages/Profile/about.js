@@ -3,6 +3,7 @@ import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, Linking } 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const developers = [
   {
@@ -44,20 +45,22 @@ const developers = [
 ];
 
 const App = () => {
-  const handleInstagramPress = (url) => {
-    Linking.openURL(url);
-  };
 
-  const handleGithubPress = (url) => {
+  const navigation = useNavigation();
+
+  const handleLinkPress = (url) => {
     Linking.openURL(url);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+      <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center', flexDirection: 'row', marginStart:wp('3%') }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('Profile'); }}>
+          <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
+        </TouchableOpacity>
         <Image
-          source={require('../../assets/logo/logoPretaRoxa.png')}
-          style={{ width: wp('100%'), height: hp('10%') }}
+          source={require('../../assets/logo/logoBrancaRoxa.png')}
+          style={{ width: wp('100%'), height: hp('10%'), flex: 1 }}
           resizeMode="contain"
         />
       </View>
@@ -71,12 +74,12 @@ const App = () => {
             <Text style={styles.name}>{developer.name}</Text>
             <Text style={styles.role}>{developer.role}</Text>
             <View style={styles.icones}>
-              <TouchableOpacity style={{ marginRight: wp('1.5%') }} onPress={() => handleInstagramPress(developer.instagram)}>
+              <TouchableOpacity style={{ marginRight: wp('1.5%') }} onPress={() => handleLinkPress(developer.instagram)}>
                 <Text>
                   <Ionicons name="logo-instagram" size={26} color="black" />
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleGithubPress(developer.github)}>
+              <TouchableOpacity onPress={() => handleLinkPress(developer.github)}>
                 <Text>
                   <FontAwesome name="github" size={26} color="black" />
                 </Text>
@@ -96,19 +99,19 @@ const App = () => {
 
       </ScrollView>
 
-      <Text style={[styles.title,{marginBottom:hp('4%')}]}>Tecnologias Usadas</Text>
-      <View style={{flexDirection: 'row', marginBottom:hp('5%'), justifyContent:'center', textAlign:'center'}}>
-        <TouchableOpacity onPress={() => { }}>
+      <Text style={[styles.title, { marginBottom: hp('4%') }]}>Tecnologias Usadas</Text>
+      <View style={{ flexDirection: 'row', marginBottom: hp('5%'), justifyContent: 'center', textAlign: 'center' }}>
+        <TouchableOpacity onPress={() => handleLinkPress('https://reactnative.dev/')}>
           <Animatable.View animation='fadeInUp'>
             <Image source={require('../../assets/logo/reactNativeLogo.png')} style={styles.logoReact} />
           </Animatable.View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => handleLinkPress('https://expo.dev/')}>
           <Animatable.View animation='fadeInUp'>
             <Image source={require('../../assets/logo/expoLogo.png')} style={styles.logoExpo} />
           </Animatable.View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => handleLinkPress('https://firebase.google.com/?hl=pt')}>
           <Animatable.View animation='fadeInUp'>
             <Image source={require('../../assets/logo/firebaseLogo.png')} style={styles.logoFirebase} />
           </Animatable.View>

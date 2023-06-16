@@ -10,11 +10,11 @@ import * as Animatable from 'react-native-animatable';
 const Write = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
-  const [activity, setActivity] = useState(todayActivity);
-  const [feelings, setFeelings] = useState(todayFeelings);
-  const [thoughts, setThoughts] = useState(todayThoughts);
-  const [learn, setLearn] = useState(todayLearn);
-  const [grateful, setGrateful] = useState(todayGrateful);
+  const [activity, setActivity] = useState('');
+  const [feelings, setFeelings] = useState('');
+  const [thoughts, setThoughts] = useState('');
+  const [learn, setLearn] = useState('');
+  const [grateful, setGrateful] = useState('');
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
   const { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id } = route.params;
@@ -47,11 +47,11 @@ const Write = ({ route }) => {
         selectedButtons,
         emotionId,
         symbol,
-        todayActivity,
-        todayFeelings,
-        todayThoughts,
-        todayLearn,
-        todayGrateful,
+        todayActivity: activity,
+        todayFeelings: feelings,
+        todayThoughts: thoughts,
+        todayLearn: learn,
+        todayGrateful: grateful,
       };
 
       await updateDoc(registroRef, updatedFields);
@@ -132,7 +132,7 @@ const Write = ({ route }) => {
           <Text style={styles.questionText}>Como foi o seu dia?</Text>
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused, { textAlignVertical: 'top' }]}
-            placeholder="Hoje eu..."
+            placeholder={todayActivity}
             onChangeText={setActivity}
             value={activity}
             onFocus={handleFocus}

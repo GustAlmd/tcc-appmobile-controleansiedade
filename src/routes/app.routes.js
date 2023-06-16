@@ -35,6 +35,7 @@ function AppRoutes() {
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="HomeMain" component={TabNavigator} />
       <AppStack.Screen name="Ansiedade" component={Ansiedade}/>
+      <AppStack.Screen name="Estresse" component={Estresse}/>
     </AppStack.Navigator>
   );
 }
@@ -155,8 +156,6 @@ function ExercisesNavigation() {
             fontWeight: 'bold',
           },
         }}
-      />
-      <AppStack.Screen name="Estresse" component={Estresse}
       />
     </AppStack.Navigator>
   );

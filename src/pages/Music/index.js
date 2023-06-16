@@ -34,7 +34,7 @@ const App = () => {
                     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Relax') }}>
                         <View>
                             <Image
-                                source={require('../../assets/albuns/dreaamy.png')}
+                                source={require('../../assets/albuns/mixRelax.jpg')}
                                 style={styles.capaRelax}
                             />
                         </View>
@@ -49,7 +49,7 @@ const App = () => {
                     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Concentration') }}>
                         <View>
                             <Image
-                                source={require('../../assets/albuns/butter.jpg')}
+                                source={require('../../assets/albuns/mixConcentration.png')}
                                 style={styles.capaRelax}
                             />
                         </View>
@@ -84,7 +84,7 @@ const App = () => {
                             />
                         </View>
                         <View>
-                            <Text style={styles.title}>???</Text>
+                            <Text style={styles.title}>Mix Happy</Text>
                         </View>
                         <View>
                             <Text style={styles.description}>???</Text>

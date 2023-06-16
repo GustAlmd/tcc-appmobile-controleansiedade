@@ -230,5 +230,6 @@ const styles = StyleSheet.create({
 
     touchableContainer: {
         marginRight: wp('80%'),
+        marginTop: wp('6%'),
     },
 });

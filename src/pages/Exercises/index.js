@@ -58,7 +58,7 @@ const App = () => {
               <Text style={styles.title}>Controle sua Ansiedade</Text>
             </View>
             <View>
-              <Text style={styles.description}>???</Text>
+              <Text style={styles.description}>Relaxe e Alivie sua Ansiedade</Text>
             </View>
           </TouchableOpacity>
 
@@ -73,7 +73,7 @@ const App = () => {
               <Text style={styles.stressTitle}>Controle seu Estresse</Text>
             </View>
             <View>
-              <Text style={styles.description}>???</Text>
+              <Text style={styles.description}>Respiração controlada por 4 segundos</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: wp('45%'),
-    height: hp('30%'),
+    height: hp('31.2%'),
   },
 
   capaRelax: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    fontSize: hp('1.7%'),
+    fontSize: hp('1.55%'),
     marginTop: 10
   },
   titleGame: {
