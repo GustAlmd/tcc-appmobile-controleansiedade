@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Image, StyleSheet, Text, Share, useWindowDimensions } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Image, StyleSheet, Text, Modal, Share, useWindowDimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Ionicons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -34,6 +34,17 @@ const SlideItem = ({ item }) => {
 
 const Slide = () => {
   const windowHeight = useWindowDimensions().height; // Obtém a altura da tela
+  const [showModal, setShowModal] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   const shareImage = async () => {
     try {
@@ -45,14 +56,23 @@ const Slide = () => {
       console.error(error.message);
     }
   };
-  ''
+
   return (
     <View style={styles.container}>
+      <Modal visible={showModal} animationType="fade" transparent>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalText}>Arraste para cima</Text>
+          <Image
+      source={require('../../assets/albuns/arraste.gif')}
+      style={{ width: wp('50%'), height: hp('10%'),marginRight: wp('5.5%') }}
+      resizeMode="contain"
+    />
+        </View>
+      </Modal>
+
       <View style={[styles.footer, { bottom: windowHeight - hp('100%') }]}>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>
-            
-          </Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', textAlign: 'center' }}></Text>
         </View>
         <Ionicons
           name="share-outline"
@@ -85,6 +105,17 @@ const styles = StyleSheet.create({
     height: hp('100%'),
     position: 'relative',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
   footer: {
     position: 'absolute',
     left: 0,
@@ -93,9 +124,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     zIndex: 1,
     padding: hp('1%'),
-    alignItems: 'center'
+    alignItems: 'center',
   },
-
   slideImage: {
     width: '100%',
     height: '100%',

@@ -10,11 +10,11 @@ import * as Animatable from 'react-native-animatable';
 const Write = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
-  const [activity, setActivity] = useState('');
-  const [feelings, setFeelings] = useState('');
-  const [thoughts, setThoughts] = useState('');
-  const [learn, setLearn] = useState('');
-  const [grateful, setGrateful] = useState('');
+  const [activity, setActivity] = useState(todayActivity || '');
+  const [feelings, setFeelings] = useState(todayFeelings || '');
+  const [thoughts, setThoughts] = useState(todayThoughts || '');
+  const [learn, setLearn] = useState(todayLearn || '');
+  const [grateful, setGrateful] = useState(todayGrateful || '');
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
   const { selectedButtons, emotionId, symbol, selectedDate, todayActivity, todayFeelings, todayThoughts, todayLearn, todayGrateful, id } = route.params;
@@ -33,34 +33,33 @@ const Write = ({ route }) => {
 
   //Atualizando no banco de dados
   const handleUpdate = async () => {
-
     try {
       const registroRef = doc(db, 'Registros', id);
-
+  
       const docSnapshot = await getDoc(registroRef);
       if (!docSnapshot.exists()) {
         console.log('Documento do usuário não encontrado!');
         return;
       }
-
+  
       const updatedFields = {
         selectedButtons,
         emotionId,
         symbol,
-        todayActivity: activity,
-        todayFeelings: feelings,
-        todayThoughts: thoughts,
-        todayLearn: learn,
-        todayGrateful: grateful,
+        todayActivity: activity || todayActivity, // Use o valor atual ou o valor anteriormente salvo
+        todayFeelings: feelings || todayFeelings,
+        todayThoughts: thoughts || todayThoughts,
+        todayLearn: learn || todayLearn,
+        todayGrateful: grateful || todayGrateful,
       };
-
+  
       await updateDoc(registroRef, updatedFields);
-
+  
       setModalVisible(true);
     } catch (error) {
       console.error('Erro ao atualizar o perfil:', error);
     }
-  };
+  };  
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
@@ -145,7 +144,7 @@ const Write = ({ route }) => {
           <Text style={styles.questionText}>Quais emoções e sentimentos gerou em você?</Text>
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
-            placeholder="Resposta..."
+            placeholder={todayFeelings}
             onChangeText={setFeelings}
             value={feelings}
             onFocus={handleFocus}
@@ -155,7 +154,7 @@ const Write = ({ route }) => {
           <Text style={styles.questionText}>Quais pensamentos estiveram mais presentes hoje?</Text>
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
-            placeholder="Resposta..."
+            placeholder={todayThoughts}
             onChangeText={setThoughts}
             value={thoughts}
             onFocus={handleFocus}
@@ -165,7 +164,7 @@ const Write = ({ route }) => {
           <Text style={styles.questionText}>O que você aprendeu hoje?</Text>
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
-            placeholder="Resposta..."
+            placeholder={todayLearn}
             onChangeText={setLearn}
             value={learn}
             onFocus={handleFocus}
@@ -175,7 +174,7 @@ const Write = ({ route }) => {
           <Text style={styles.questionText}>Pelo o que você é grato(a) hoje?</Text>
           <TextInput
             style={[styles.input, isFocused && styles.inputFocused]}
-            placeholder="Resposta..."
+            placeholder={todayGrateful}
             onChangeText= {setGrateful}
             value={grateful}
             onFocus={handleFocus}
