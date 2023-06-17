@@ -39,7 +39,7 @@ const Slide = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowModal(false);
-    }, 2000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
@@ -61,10 +61,9 @@ const Slide = () => {
     <View style={styles.container}>
       <Modal visible={showModal} animationType="fade" transparent>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>Arraste para cima</Text>
           <Image
       source={require('../../assets/albuns/arraste.gif')}
-      style={{ width: wp('50%'), height: hp('10%'),marginRight: wp('5.5%') }}
+      style={{ width: wp('70%'), height: hp('30%')}}
       resizeMode="contain"
     />
         </View>
@@ -109,7 +108,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    marginTop: hp('47%'),
+   
   },
   modalText: {
     fontSize: 24,

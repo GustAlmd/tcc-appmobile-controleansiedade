@@ -3,7 +3,8 @@ import { View, Animated, Easing, TouchableOpacity, Text, StyleSheet, Platform } 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import * as Animatable from 'react-native-animatable'
+import * as Animatable from 'react-native-animatable';
+import { Audio } from 'expo-av';
 
 const App = () => {
     const navigation = useNavigation();
@@ -14,8 +15,30 @@ const App = () => {
     const [repetitions, setRepetitions] = useState(0);
 
     useEffect(() => {
-        pauseBreathing();
-    }, []);
+        restartBreathing();
+        let sound = null;
+      
+        const playAudio = async () => {
+          try {
+            const { sound: audioSound } = await Audio.Sound.createAsync(
+              require('../../assets/audio/rain.mp3')
+            );
+            sound = audioSound;
+            await sound.playAsync();
+          } catch (error) {
+            console.log('Erro ao reproduzir o áudio:', error);
+          }
+        };
+      
+        playAudio();
+      
+        return () => {
+          if (sound) {
+            sound.stopAsync(); // Interrompe a reprodução do áudio
+            sound.unloadAsync();
+          }
+        };
+      }, []);
 
     const startBreathing = () => {
         setIsAnimating(true);
@@ -74,7 +97,7 @@ const App = () => {
         });
     };
 
-    const pauseBreathing = () => {
+    const restartBreathing = () => {
         setIsAnimating(false);
         ballAnim.stopAnimation();
         textAnim.stopAnimation();
@@ -126,7 +149,7 @@ const App = () => {
 
                 <Animatable.View animation='fadeInUp'>
                     <TouchableOpacity
-                        onPress={isAnimating ? pauseBreathing : startBreathing}
+                        onPress={isAnimating ? restartBreathing : startBreathing}
                         style={{
                             height: hp('5%'),
                             width: wp('20%'),

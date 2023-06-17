@@ -9,30 +9,36 @@ import * as Animatable from 'react-native-animatable'
 import { useNavigation } from '@react-navigation/native';
 
 export default function CalmDown() {
-
     const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [songIndex, setSongIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [progress, setProgress] = useState(0); // novo estado para controlar o valor da barra de progresso
+    const [progress, setProgress] = useState(0);
     const [currentDuration, setCurrentDuration] = useState(0);
     const [totalDuration, setTotalDuration] = useState(0);
 
-    const soundRef = useRef(null); // novo ref para obter uma referência ao objeto de áudio
+    const soundRef = useRef(null);
 
     useEffect(() => {
         loadAudio();
+
+        return () => {
+            pauseSound();
+            unloadAudio();
+        };
     }, []);
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            const status = await sound.getStatusAsync();
-            const currentDuration = status.positionMillis || 0;
-            const totalDuration = status.durationMillis || 0;
-            const progress = totalDuration !== 0 ? currentDuration / totalDuration : 0;
-            setProgress(progress);
-            setCurrentDuration(currentDuration);
-            setTotalDuration(totalDuration);
+            if (sound) {
+                const status = await sound.getStatusAsync();
+                const currentDuration = status.positionMillis || 0;
+                const totalDuration = status.durationMillis || 0;
+                const progress = totalDuration !== 0 ? currentDuration / totalDuration : 0;
+                setProgress(progress);
+                setCurrentDuration(currentDuration);
+                setTotalDuration(totalDuration);
+            }
         }, 1000);
         return () => clearInterval(interval);
     }, [sound]);
@@ -41,9 +47,15 @@ export default function CalmDown() {
         try {
             const { sound } = await Audio.Sound.createAsync(calmDownSongs[songIndex].url);
             setSound(sound);
-            soundRef.current = sound; // atribui o objeto de áudio ao ref
+            soundRef.current = sound;
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async function unloadAudio() {
+        if (soundRef.current) {
+            await soundRef.current.unloadAsync();
         }
     }
 
@@ -74,7 +86,7 @@ export default function CalmDown() {
         setSongIndex(nextSongIndex);
         const { sound: nextSound } = await Audio.Sound.createAsync(calmDownSongs[nextSongIndex].url);
         setSound(nextSound);
-        soundRef.current = nextSound; // atribui o objeto de áudio ao ref
+        soundRef.current = nextSound;
         playSound();
     }
 
@@ -87,7 +99,7 @@ export default function CalmDown() {
         setSongIndex(previousSongIndex);
         const { sound: nextSound } = await Audio.Sound.createAsync(calmDownSongs[previousSongIndex].url);
         setSound(nextSound);
-        soundRef.current = nextSound; // atribui o objeto de áudio ao ref
+        soundRef.current = nextSound;
         playSound();
     }
 
@@ -100,24 +112,16 @@ export default function CalmDown() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.maincontainer}>
-
                 <View style={styles.touchableContainer}>
                     <TouchableOpacity onPress={() => { navigation.navigate('Music'); }}>
                         <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'} size={24} color="white" />
                     </TouchableOpacity>
                 </View>
-
-
-                {/* image */}
                 <Animatable.Image style={styles.artwork} source={calmDownSongs[songIndex].artwork} animation='fadeInDown' />
-
-                {/* Song Content */}
                 <Animatable.View animation='fadeInRight'>
                     <Text style={[styles.songContent, styles.songTitle]}> {calmDownSongs[songIndex].title} </Text>
                     <Text style={[styles.songContent, styles.songArtist]}> {calmDownSongs[songIndex].artist} </Text>
                 </Animatable.View>
-
-                {/* slider */}
                 <Animatable.View animation='fadeInLeft'>
                     <Slider
                         style={styles.progressBar}
@@ -129,19 +133,15 @@ export default function CalmDown() {
                         maximumTrackTintColor="#000000"
                         onSlidingComplete={() => { }}
                     />
-                    { /* music progress durations */}
                     <View style={styles.progressLevelDuration}>
                         <Text style={styles.progressLabelText}>{formatDuration(currentDuration)}</Text>
                         <Text style={styles.progressLabelText}>{formatDuration(totalDuration)}</Text>
                     </View>
                 </Animatable.View>
-
-                {/* music controls */}
                 <Animatable.View style={styles.musicControlsContainer} animation='fadeInUp'>
                     <TouchableOpacity onPress={() => handlePrevious()}>
                         <Ionicons name="play-skip-back-outline" size={45} color="#ffffff" />
                     </TouchableOpacity>
-
                     {isPlaying ? (
                         <TouchableOpacity style={styles.controlButton} onPress={() => pauseSound()}>
                             <Ionicons name="ios-pause-circle" size={80} color="#fff" />
@@ -156,9 +156,8 @@ export default function CalmDown() {
                     </TouchableOpacity>
                 </Animatable.View>
             </View>
-
         </SafeAreaView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -233,5 +232,4 @@ const styles = StyleSheet.create({
         marginRight: wp('80%'),
         marginTop: wp('6%'),
     },
-
 });

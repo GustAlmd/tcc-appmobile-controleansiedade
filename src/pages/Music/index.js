@@ -64,7 +64,7 @@ const App = () => {
                     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('CalmDown') }}>
                         <View>
                             <Image
-                                source={require('../../assets/albuns/undefined.jpg')}
+                                source={require('../../assets/albuns/mixCalmDown.jpg')}
                                 style={styles.capaRelax}
                             />
                         </View>

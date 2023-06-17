@@ -15,14 +15,20 @@ export default function Concentration() {
     const [sound, setSound] = useState(null);
     const [songIndex, setSongIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [progress, setProgress] = useState(0); // novo estado para controlar o valor da barra de progresso
+    const [progress, setProgress] = useState(0);
     const [currentDuration, setCurrentDuration] = useState(0);
     const [totalDuration, setTotalDuration] = useState(0);
 
-    const soundRef = useRef(null); // novo ref para obter uma referência ao objeto de áudio
+    const soundRef = useRef(null);
 
     useEffect(() => {
         loadAudio();
+
+        return () => {
+            if (soundRef.current) {
+                soundRef.current.unloadAsync(); // Interrompe a reprodução do áudio
+            }
+        };
     }, []);
 
     useEffect(() => {
@@ -42,7 +48,7 @@ export default function Concentration() {
         try {
             const { sound } = await Audio.Sound.createAsync(concentrationSongs[songIndex].url);
             setSound(sound);
-            soundRef.current = sound; // atribui o objeto de áudio ao ref
+            soundRef.current = sound;
         } catch (error) {
             console.log(error);
         }
@@ -75,7 +81,7 @@ export default function Concentration() {
         setSongIndex(nextSongIndex);
         const { sound: nextSound } = await Audio.Sound.createAsync(concentrationSongs[nextSongIndex].url);
         setSound(nextSound);
-        soundRef.current = nextSound; // atribui o objeto de áudio ao ref
+        soundRef.current = nextSound;
         playSound();
     }
 
@@ -88,7 +94,7 @@ export default function Concentration() {
         setSongIndex(previousSongIndex);
         const { sound: nextSound } = await Audio.Sound.createAsync(concentrationSongs[previousSongIndex].url);
         setSound(nextSound);
-        soundRef.current = nextSound; // atribui o objeto de áudio ao ref
+        soundRef.current = nextSound;
         playSound();
     }
 
@@ -108,16 +114,13 @@ export default function Concentration() {
                     </TouchableOpacity>
                 </View>
 
-                {/* image */}
                 <Animatable.Image style={styles.artwork} source={concentrationSongs[songIndex].artwork} animation='fadeInDown' />
 
-                {/* Song Content */}
                 <Animatable.View animation='fadeInRight'>
                     <Text style={[styles.songContent, styles.songTitle]}> {concentrationSongs[songIndex].title} </Text>
                     <Text style={[styles.songContent, styles.songArtist]}> {concentrationSongs[songIndex].artist} </Text>
                 </Animatable.View>
 
-                {/* slider */}
                 <Animatable.View animation='fadeInLeft'>
                     <Slider
                         style={styles.progressBar}
@@ -129,14 +132,12 @@ export default function Concentration() {
                         maximumTrackTintColor="#000000"
                         onSlidingComplete={() => { }}
                     />
-                    { /* music progress durations */}
                     <View style={styles.progressLevelDuration}>
                         <Text style={styles.progressLabelText}>{formatDuration(currentDuration)}</Text>
                         <Text style={styles.progressLabelText}>{formatDuration(totalDuration)}</Text>
                     </View>
                 </Animatable.View>
 
-                {/* music controls */}
                 <Animatable.View style={styles.musicControlsContainer} animation='fadeInUp'>
                     <TouchableOpacity onPress={() => handlePrevious()}>
                         <Ionicons name="play-skip-back-outline" size={45} color="#ffffff" />
