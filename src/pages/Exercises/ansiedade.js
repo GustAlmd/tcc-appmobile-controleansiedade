@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
-import { Audio } from 'expo-av';;
+import { Audio } from 'expo-av';
 
 const App = () => {
     const navigation = useNavigation();
@@ -12,56 +12,58 @@ const App = () => {
     const [textAnim] = useState(new Animated.Value(0));
     const [isAnimating, setIsAnimating] = useState(false);
     const [breathText, setBreathText] = useState('');
-    const [repetitions, setRepetitions] = useState(0);
     const [sound, setSound] = useState(null);
 
     useEffect(() => {
-        pauseBreathing();
         let sound = null;
-      
+
         const playAudio = async () => {
-          try {
-            const { sound: audioSound } = await Audio.Sound.createAsync(
-              require('../../assets/audio/relax/honeyjam.mp3')
-            );
-            sound = audioSound;
-            await sound.playAsync();
-          } catch (error) {
-            console.log('Erro ao reproduzir o áudio:', error);
-          }
+            try {
+                const { sound: audioSound } = await Audio.Sound.createAsync(
+                    require('../../assets/audio/relaxrain.mp3')
+                );
+                sound = audioSound;
+                await sound.playAsync();
+            } catch (error) {
+                console.log('Erro ao reproduzir o áudio:', error);
+            }
         };
-      
+
         playAudio();
-      
+
         return () => {
-          if (sound) {
-            sound.stopAsync(); // Interrompe a reprodução do áudio
-            sound.unloadAsync();
-          }
+            if (sound) {
+                sound.stopAsync(); // Interrompe a reprodução do áudio
+                sound.unloadAsync();
+            }
         };
-      }, []);
-      
-      
+    }, []);
 
     const startBreathing = () => {
         setIsAnimating(true);
         animateBall();
+        let repetitions = 0;
 
-        animateText('Relaxe', 4000, () => {
-            animateText('Inspire', 4000, () => {
-                animateText('Expire', 4000, () => {
-                    if (repetitions < 3) {
-                        setRepetitions(repetitions + 1);
-                        startBreathing();
-                    } else {
-                        setIsAnimating(false);
-                        setBreathText('');
-                        setRepetitions(0);
-                    }
+        const sequenceBreath = () => {
+            animateText('Acalma-se e Relaxe', 4000, () => {
+                animateText('Inspire', 3900, () => {
+                    animateText('Expire', 4000, () => {
+                        repetitions += 1;
+                        if (repetitions < 3) {
+                            sequenceBreath();
+                        } else {
+                            ballAnim.stopAnimation();
+                            ballAnim.setValue(0);
+                            setIsAnimating(false);
+                        }
+                    });
                 });
             });
-        });
+        };
+
+        sequenceBreath();
     };
+
 
     const animateBall = () => {
         Animated.loop(
@@ -95,14 +97,6 @@ const App = () => {
             textAnim.setValue(0);
             callback && callback();
         });
-    };
-
-    const pauseBreathing = () => {
-        setIsAnimating(false);
-        ballAnim.stopAnimation();
-        textAnim.stopAnimation();
-        textAnim.setValue(0);
-        setBreathText('');
     };
 
     const ballStyle = {
@@ -147,24 +141,26 @@ const App = () => {
                     {breathText}
                 </Animated.Text>
 
-                <Animatable.View animation='fadeInUp'>
-                    <TouchableOpacity
-                        onPress={isAnimating ? pauseBreathing : startBreathing}
-                        style={{
-                            height: hp('5%'),
-                            width: wp('20%'),
-                            padding: 10,
-                            backgroundColor: '#5086c1',
-                            borderRadius: 5,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: 10
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                            {isAnimating ? 'Pausar' : 'Começar'}
-                        </Text>
-                    </TouchableOpacity>
-                </Animatable.View>
+                {isAnimating ? null : (
+                    <Animatable.View animation='fadeInUp'>
+                        <TouchableOpacity
+                            onPress={startBreathing}
+                            style={{
+                                height: hp('5%'),
+                                width: wp('20%'),
+                                padding: 10,
+                                backgroundColor: '#5086c1',
+                                borderRadius: 5,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                margin: 10
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                Começar
+                            </Text>
+                        </TouchableOpacity>
+                    </Animatable.View>
+                )}
             </View>
         </View>
     );
@@ -176,19 +172,16 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#556aa9',
         flex: 1
-
     },
     main: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: hp('3%')
     },
     header: {
         position: 'absolute',
         width: wp('100%'),
         height: hp('7%'),
-        marginTop: hp('4%'),
         marginStart: wp('5%'),
         backgroundColor: 'transparent',
     },
@@ -199,7 +192,7 @@ const styles = StyleSheet.create({
         marginTop: hp('8%'),
     },
     touchableContainer: {
-        marginLeft: 20,
-        marginTop: 30
+        marginLeft: wp('5%'),
+        marginTop: hp('3%')
     },
 });

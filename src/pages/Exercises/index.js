@@ -70,10 +70,10 @@ const App = () => {
               />
             </View>
             <View>
-              <Text style={styles.stressTitle}>Controle seu Estresse</Text>
+              <Text style={styles.stressTitle}>Mantenha a Concentração</Text>
             </View>
             <View>
-              <Text style={styles.description}>Respiração controlada por 4 segundos</Text>
+              <Text style={styles.description}>Relaxe e Concentre-se no seu Foco</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    fontSize: hp('1.55%'),
+    fontSize: hp('1.60%'),
     marginTop: 10
   },
   titleGame: {

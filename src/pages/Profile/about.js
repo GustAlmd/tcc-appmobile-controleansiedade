@@ -65,7 +65,6 @@ const App = () => {
         />
       </View>
 
-
       <Text style={styles.title}>Desenvolvedores</Text>
       <ScrollView style={styles.cardContainer}>
         {developers.map((developer, index) => (

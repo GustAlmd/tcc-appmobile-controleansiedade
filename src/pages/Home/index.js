@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Text, Modal, Share, useWindowDimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Ionicons } from '@expo/vector-icons';
@@ -39,7 +39,7 @@ const Slide = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowModal(false);
-    }, 3000);
+    }, 2500);
 
     return () => {
       clearTimeout(timer);
@@ -62,10 +62,10 @@ const Slide = () => {
       <Modal visible={showModal} animationType="fade" transparent>
         <View style={styles.modalContainer}>
           <Image
-      source={require('../../assets/albuns/arraste.gif')}
-      style={{ width: wp('70%'), height: hp('30%')}}
-      resizeMode="contain"
-    />
+            source={require('../../assets/albuns/arraste.gif')}
+            style={{ width: wp('70%'), height: hp('30%'), marginTop: hp('47%') }}
+            resizeMode="contain"
+          />
         </View>
       </Modal>
 
@@ -108,8 +108,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: hp('47%'),
-   
   },
   modalText: {
     fontSize: 24,
