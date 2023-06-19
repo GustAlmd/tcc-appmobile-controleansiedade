@@ -76,10 +76,10 @@ const App = () => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('CalmDown') }}>
+                    <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('Happy') }}>
                         <View>
                             <Image
-                                source={require('../../assets/albuns/undefined.jpg')}
+                                source={require('../../assets/albuns/mixHappy.png')}
                                 style={styles.capaRelax}
                             />
                         </View>
@@ -87,7 +87,7 @@ const App = () => {
                             <Text style={styles.title}>Mix Happy</Text>
                         </View>
                         <View>
-                            <Text style={styles.description}>???</Text>
+                            <Text style={styles.description}>Chris Brown, Bruno Mars...</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

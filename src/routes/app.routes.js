@@ -8,10 +8,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Home from "../pages/Home";
 import Music from '../pages/Music/index';
 import Relax from '../pages/Music/relax';
-import Concentration from '../pages/Music/concentration'
-import CalmDown from '../pages/Music/calmDown'
+import Concentration from '../pages/Music/concentration';
+import CalmDown from '../pages/Music/calmDown';
+import Happy from '../pages/Music/happy';
 import Profile from '../pages/Profile/index';
-import About from '../pages/Profile/about'
+import About from '../pages/Profile/about';
 import Exercises from '../pages/Exercises/index';
 import Ansiedade from '../pages/Exercises/ansiedade';
 import Estresse from '../pages/Exercises/estresse'
@@ -182,6 +183,7 @@ function MusicNavigation() {
       <AppStack.Screen name="Relax" component={Relax} />
       <AppStack.Screen name="CalmDown" component={CalmDown} />
       <AppStack.Screen name="Concentration" component={Concentration} />
+      <AppStack.Screen name="Happy" component={Happy} />
     </AppStack.Navigator>
   );
 }
