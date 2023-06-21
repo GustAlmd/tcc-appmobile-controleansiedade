@@ -71,11 +71,7 @@ export default function SignIn() {
           }
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.buttonRegister, { marginTop: '5%' }]}>
-          <Text style={styles.registerText}>Esqueceu sua senha?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.buttonRegister, { marginTop: '2%' }]} onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity style={[styles.buttonRegister, { marginTop: '6%' }]} onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.registerText}>Não possui uma conta? Cadastre-se</Text>
         </TouchableOpacity>
 
